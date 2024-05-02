@@ -1,16 +1,17 @@
-// server side of home page
+// HOME PAGE SERVER SIDE
 
 import ClientOnly from "@/components/clientonly";
+import { db } from "@/lib/db";
 
 import HomeClient from "./homeclient";
 
-// no business logic, wrap everything inside ClientOnly to avoid any hydration errors
-// hydration error is when the client side and server side renderings are different
-
 const HomePage = async () => {
+	// let's query the current time from the database as a demonstration of server-side logic
+	const currentTime = await db.$queryRaw`SELECT NOW()`;
+
 	return (
 		<ClientOnly>
-			<HomeClient />
+			<HomeClient currentTime={JSON.stringify(currentTime)} />
 		</ClientOnly>
 	);
 };

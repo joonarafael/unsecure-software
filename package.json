@@ -9,6 +9,7 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@prisma/client": "^5.13.0",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.0",
 		"lucide-react": "^0.368.0",
@@ -21,6 +22,7 @@
 	"devDependencies": {
 		"@types/node": "^20",
 		"@types/react": "^18",
+		"prisma": "^5.13.0",
 		"@types/react-dom": "^18",
 		"eslint": "^8",
 		"eslint-config-next": "14.2.1",

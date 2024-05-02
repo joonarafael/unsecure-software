@@ -1,9 +1,15 @@
 "use client";
 
-const HomeClient = () => {
+// HOME PAGE CLIENT SIDE
+
+interface HomeClientProps {
+	currentTime: string;
+}
+
+const HomeClient = ({ currentTime }: HomeClientProps) => {
 	return (
 		<div>
-			<p>HOME PAGE</p>
+			<p>{currentTime}</p>
 		</div>
 	);
 };

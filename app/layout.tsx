@@ -1,11 +1,10 @@
 // THIS FILE IS THE MAIN ENTRYPOINT FOR THE WEB APPLICATION
-// layout.tsx defines the core HTML structure of the website and every route
 
 import type { Metadata } from "next";
-import "./globals.css";
+import './globals.css';
 
-import dynamic from "next/dynamic";
-import { Inter } from "next/font/google";
+import dynamic from 'next/dynamic';
+import { Inter } from 'next/font/google';
 
 const Footer = dynamic(() => import("../components/footer"), {
 	ssr: false,

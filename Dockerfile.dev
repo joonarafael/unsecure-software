@@ -1,0 +1,11 @@
+FROM node:latest
+
+WORKDIR /app
+
+COPY ./package.json ./
+
+RUN npm i
+
+COPY . .
+
+CMD npx prisma generate;npx prisma db push; npm run dev;
