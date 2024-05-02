@@ -62,13 +62,13 @@ Get the Postgres database running as a Docker container by executing
 docker run --name postgres-container -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d --network=unsecurenetwork postgres
 ```
 
-When running the first time, it might take some time to first download the image and then start the container.
+When running the first time, it might take some time to first download the image (as it probably won't find it locally) and then start the container.
 
 **Some possible errors you might encounter are:**
 
-- _Address already in use_: There is already a process running on your machine that occupies port number 5432. Either kill the process or change the outgoing port number (latter of the two, after colon) for the new Docker container. Doing this, however, means that the environment variable for the `DATABASE_URL` (within the file called `.env` at project root ) has to be changed accordingly. Change the port number within the `DATABASE_URL` environment variable. It is set as `5432` as default.
+- _Address already in use_: There is already a process running on your machine that occupies port number 5432. Either kill the process or change the outgoing port number (latter of the two, after colon) for the new Docker container. Doing this, however, means that the environment variable for the `DATABASE_URL` (within the file called `.env` at project root) (**OR** the `docker run` command argument) has to be changed accordingly. Change the port number within the `DATABASE_URL` environment variable. It is set as `5432` as default.
 
-- _Container name already in use_: There already exists a Docker container with the same exact name on your local machine. Either remove it (if it's redundant) or give a differing name for the new container. The name in question is the argument after `--name` flag the within the command provided above. It's `some-postgres` as default.
+- _Container name already in use_: There already exists a Docker container with the same exact name on your local machine. Either remove it (if it's redundant) or give a differing name for the new container. The name in question is the argument after `--name` flag the within the command provided above. It's `postgres-container` as default.
 
 ### Docker Tips
 
@@ -93,5 +93,7 @@ After a successful creation of the Docker image, launch it with
 ```
 docker run --name application-container -it -p 3000:3000 -e DATABASE_URL="postgresql://postgres:mysecretpassword@postgres-container:5432/postgres?schema=SCHEMA" --network=unsecurenetwork unsecureapp
 ```
+
+If you had to change the port number for your Postgres database instance, please adjust the default port number within the command argument above. Default is 5432.
 
 Now open the web browser of your choice and navigate to [localhost:3000](http://localhost:3000 "Your localhost:3000").
