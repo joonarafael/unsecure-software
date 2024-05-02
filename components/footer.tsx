@@ -5,14 +5,13 @@ const Footer = () => {
 		<div>
 			<div>
 				<p>FAVICON BY</p>
-				<p
-					onClick={() => {
-						window.open("https://www.freepik.com", "_blank");
-					}}
-					className="hover:underline cursor-pointer"
+				<a
+					href="https://www.freepik.com"
+					target="_blank"
+					className="hover:underline"
 				>
 					FREEPIK
-				</p>
+				</a>
 			</div>
 		</div>
 	);
