@@ -4,15 +4,15 @@ This manual will provide you with step-by-step instructions on how to get this a
 
 ## Advanced Users
 
-This web application runs as a _Next.js_ server and utilizes a Postgres database to store long-term data. If you know what you are doing, you may follow this quick start guide:
+This web application runs as a _Next.js_ server and utilizes a Postgres database to store long-term data. If you are already familiar with Next.js web apps, and you know what you are doing, you may follow this quick start guide:
 
 **QUICK START**:
 
-- Clone this repository to your machine and install dependencies by executing `npm i` in repository root, next to `package.json`.
+- Clone this repository to your machine and install dependencies by executing `npm i` (or `yarn` if you are using _Yarn_) in repository root, next to `package.json`.
 
-- Get an empty Postgres database running. Use _Docker_ or whatever you like. Change the `DATABASE_URL` environment variable accordingly within `.env`.
+- Get an empty Postgres database running. Use the official _Docker_ image or whatever you like. Change the `DATABASE_URL` environment variable accordingly within `.env`.
 
-- Run the application with `npm run dev`.
+- Run the application with `npm run dev` (or `yarn run dev`).
 
 ## Not-So-Advanced Users
 
@@ -24,17 +24,7 @@ Get your hands on the source code by cloning this repository to your local machi
 git clone https://github.com/joonarafael/unsecure-software.git
 ```
 
-If you do not have `git` as a command in your terminal, you may also download the codebase as a ZIP-folder from [this site](https://github.com/joonarafael/unsecure-software/releases "Unsecure Software Releases"). GitHub Desktop users may also retrieve the repository, and its contents, with the help of the desktop application.
-
-### Opening Directory in Terminal
-
-Open a new terminal instance at the newly downloaded repository or otherwise navigate into it.
-
-Linux and MacOs users can navigate in their file system with `cd unsecure-software` natively within the terminal.
-
-For Windows users, it's suggested to switch to a _Bash_ terminal. New _Visual Studio Code_ installations will have a Bash terminal ready-to-go out of the box. In a Bash terminal the `cd` command will work the same as for Linux and MacOS users.
-
-If you're running on Windows and a Bash terminal instance is not an option for you, you will have to figure out another way to open a terminal instance. An option to open it in _PowerShell_ might appear for you by right-clicking the directory.
+If you do not have `git` as a command in your terminal, you may also download the codebase as a ZIP-folder from [this site](https://github.com/joonarafael/unsecure-software/releases "Unsecure Software Releases"). GitHub Desktop users may also retrieve the repository with the help of their desktop application.
 
 ### Docker
 
@@ -46,9 +36,19 @@ The Internet and YouTube are also full of short informative installation guides 
 
 **NOTE!** All commands provided here later will run in your terminal regardless of the OS, if you've got the _Docker CLI client_ installed on your machine. The CLI client will install automatically when downloading and installing the _Docker Desktop_ bundle. However, only the CLI client is required to proceed.
 
+### Opening Directory in Terminal
+
+Open a new terminal instance at the newly downloaded repository or otherwise navigate into it.
+
+Linux and MacOs users can navigate with `cd unsecure-software` natively within the terminal.
+
+For Windows users, it's suggested to switch to a _Bash_ terminal. New _Visual Studio Code_ installations will have a Bash terminal ready-to-go out of the box. In a Bash terminal the `cd` command will work the same as for Linux and MacOS users.
+
+If you're running on Windows and a Bash terminal instance is not an option for you, you will have to figure out another way to open a terminal instance. An option to open it in _PowerShell_ might appear for you by right-clicking the directory.
+
 ### Create Docker Network
 
-Initialize a Docker network to create a bridge for the two individual Docker containers to get them communicate with each other.
+Initialize a Docker network to create a bridge for the two individual Docker containers to get them to communicate with each other.
 
 ```
 docker network create unsecurenetwork
@@ -64,21 +64,21 @@ docker run --name postgres-container -p 5432:5432 -e POSTGRES_PASSWORD=mysecretp
 
 When running the first time, it might take some time to first download the image (as it probably won't find it locally) and then start the container.
 
-**Some possible errors you might encounter are:**
+**SOME POSSIBLE ERRORS** you might encounter are:
 
-- _Address already in use_: There is already a process running on your machine that occupies port number 5432. Either kill the process or change the outgoing port number (latter of the two, after colon) for the new Docker container. Doing this, however, means that the environment variable for the `DATABASE_URL` (within the file called `.env` at project root) (**OR** the `docker run` command argument) has to be changed accordingly. Change the port number within the `DATABASE_URL` environment variable. It is set as `5432` as default.
+- _Address already in use_: **There is already a process running on your machine that occupies port number 5432**. One option is to just kill the other occupying process. However, an easier solution would be to replace the current port configuration from `5432:5432` to **just** `5432`. This way Postgres database will be automatically initialized to a free port on your machine. You may check the designated port number with `docker ps -a`. Doing this, however, means that the environment variable for the `DATABASE_URL` (within the file called `.env` at project root) (**OR** the `docker run` command argument) has to be changed accordingly. Change the port number within the `DATABASE_URL` environment variable. It is set as `5432` as default.
 
-- _Container name already in use_: There already exists a Docker container with the same exact name on your local machine. Either remove it (if it's redundant) or give a differing name for the new container. The name in question is the argument after `--name` flag the within the command provided above. It's `postgres-container` as default.
+- _Container name already in use_: **There already exists a Docker container with the same exact name on your local machine**. Either remove it (if it's redundant) or give a differing name for the new container. The name in question is the argument after `--name` flag the within the command provided above. It's `postgres-container` as default.
 
-### Docker Tips
+### Some Useful Docker Tips
 
 Check all running Docker containers with `docker ps -a` and all images with `docker images`.
 
-Any container can be stopped with `docker stop [container]` and deleted with `docker rm [container]`.
+Any container can be stopped with `docker stop {container}` and deleted with `docker rm {container}`.
 
-Any image can be deleted wih `docker rmi [image:version]`.
+Any image can be deleted wih `docker rmi {image:version}`.
 
-Any Docker network can be deleted with `docker network rm [network]`.
+Any Docker network can be deleted with `docker network rm {network}`.
 
 ### Create The Docker Image For The Server
 
@@ -88,12 +88,16 @@ Create the Docker image for the server out of the source code within this reposi
 docker build -f Dockerfile.dev -t unsecureapp .
 ```
 
+at the _project root_. With 'project root' I mean the root of this Git repository. At the project root, you will find files as `Dockerfile.dev` and `package.json`.
+
 After a successful creation of the Docker image, launch it with
 
 ```
 docker run --name application-container -it -p 3000:3000 -e DATABASE_URL="postgresql://postgres:mysecretpassword@postgres-container:5432/postgres?schema=SCHEMA" --network=unsecurenetwork unsecureapp
 ```
 
-If you had to change the port number for your Postgres database instance, please adjust the default port number within the command argument above. Default is 5432.
+If port 3000 is unavailable (e.g. already in use), change the port argument from `3000:3000` to just `3000`. This way it will be automatically reset to a free port on your machine.
 
-Now open the web browser of your choice and navigate to [localhost:3000](http://localhost:3000 "Your localhost:3000").
+**If you had to change the port number for your Postgres database instance**, please adjust the default port number within the command argument for the environment above. Default is `5432`.
+
+Now open the web browser of your choice and navigate to [localhost:3000](http://localhost:3000 "Your localhost:3000"), or whatever the correct port is for your `application-container` Docker container.

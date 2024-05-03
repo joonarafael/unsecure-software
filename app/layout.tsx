@@ -1,10 +1,10 @@
 // THIS FILE IS THE MAIN ENTRYPOINT FOR THE WEB APPLICATION
 
 import type { Metadata } from "next";
-import './globals.css';
+import "./globals.css";
 
-import dynamic from 'next/dynamic';
-import { Inter } from 'next/font/google';
+import dynamic from "next/dynamic";
+import { Inter } from "next/font/google";
 
 const Footer = dynamic(() => import("../components/footer"), {
 	ssr: false,
@@ -25,7 +25,9 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				{children}
+				<main className="flex w-full justify-center items-center">
+					{children}
+				</main>
 				<Footer />
 			</body>
 		</html>

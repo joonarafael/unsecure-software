@@ -7,11 +7,17 @@ import HomeClient from "./homeclient";
 
 const HomePage = async () => {
 	// let's query the current time from the database as a demonstration of server-side logic
-	const currentTime = await db.$queryRaw`SELECT NOW()`;
+	let safeTime = "N/A";
+
+	try {
+		safeTime = await db.$queryRaw`SELECT NOW()`;
+	} catch (error) {
+		console.log(error);
+	}
 
 	return (
 		<ClientOnly>
-			<HomeClient currentTime={JSON.stringify(currentTime)} />
+			<HomeClient currentTime={JSON.stringify(safeTime)} />
 		</ClientOnly>
 	);
 };

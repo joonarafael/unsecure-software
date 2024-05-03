@@ -2,8 +2,8 @@
 
 const Footer = () => {
 	return (
-		<div>
-			<div>
+		<div className="flex w-full items-center justify-center">
+			<div className="flex flex-row gap-1">
 				<p>FAVICON BY</p>
 				<a
 					href="https://www.freepik.com"

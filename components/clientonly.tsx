@@ -4,6 +4,8 @@ interface ClientOnlyProps {
 	children: JSX.Element;
 }
 
+// no server sided rendering for the children within this component
+
 const ClientOnly = ({ children }: ClientOnlyProps) => {
 	return children;
 };
