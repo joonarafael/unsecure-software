@@ -1,8 +1,14 @@
+// LOGIN PAGE SERVER SIDE
+
+import ClientOnly from "@/components/clientonly";
+
+import LogInClient from "./loginclient";
+
 const LoginPage = async () => {
 	return (
-		<div>
-			<p>LOGIN PAGE</p>
-		</div>
+		<ClientOnly>
+			<LogInClient />
+		</ClientOnly>
 	);
 };
 
