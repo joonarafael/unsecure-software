@@ -22,7 +22,7 @@ const HomeClient = ({ currentTime }: HomeClientProps) => {
 
 	return (
 		<Container>
-			<div className="flex flex-col gap-8 p-12">
+			<div className="flex flex-col gap-8 p-12 w-[600px]">
 				<p>GMT {safeTime}</p>
 				<p className="font-light">
 					<em>the unsecure</em>
@@ -34,7 +34,20 @@ const HomeClient = ({ currentTime }: HomeClientProps) => {
 					<p className="font-bold">Project I - Joona Kettunen</p>
 				</div>
 				<div className="flex gap-2 p-4 flex-col border rounded-lg">
-					<h3 className="text-lg font-bold">Log in to your account</h3>
+					<h3 className="text-lg font-bold">
+						1. Start by populating the database
+					</h3>
+					<p className="text-neutral-500 text-sm">
+						<em>(with plain text passwords or hashed ones)</em>
+					</p>
+					<a href="/populate" className="flex w-full">
+						<Button className="flex w-full" size="lg">
+							Let&apos;s check it
+						</Button>
+					</a>
+				</div>
+				<div className="flex gap-2 p-4 flex-col border rounded-lg">
+					<h3 className="text-lg font-bold">2. Log in to your account</h3>
 					<p className="text-neutral-500 text-sm">
 						<em>(both standard and admin users)</em>
 					</p>

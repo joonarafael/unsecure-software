@@ -58,7 +58,7 @@ const LogInClient = () => {
 
 	return (
 		<Container>
-			<div className="flex flex-col gap-8 p-12">
+			<div className="flex flex-col gap-8 p-12 w-[600px]">
 				<p className="font-light">
 					<em>the unsecure</em>
 				</p>
