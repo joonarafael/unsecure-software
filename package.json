@@ -1,6 +1,6 @@
 {
 	"name": "unsecure-software",
-	"version": "alpha-0.0.1",
+	"version": "beta-0.1.0",
 	"private": false,
 	"scripts": {
 		"dev": "next dev",

@@ -42,7 +42,7 @@ const HomeClient = ({ currentTime }: HomeClientProps) => {
 					</p>
 					<a href="/populate" className="flex w-full">
 						<Button className="flex w-full" size="lg">
-							Let&apos;s check it
+							Let&apos;s do it
 						</Button>
 					</a>
 				</div>

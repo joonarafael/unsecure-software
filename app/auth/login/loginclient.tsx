@@ -44,8 +44,10 @@ const LogInClient = () => {
 		startTransition(() => {
 			axios
 				.post("/api/auth/login", values)
-				.then(() => {
+				.then((res) => {
+					sessionStorage.setItem("token", res.data.token);
 					setSuccess("Log in successful!");
+					window.open("/dashboard", "_self");
 				})
 				.catch((error) => {
 					console.log(error);
