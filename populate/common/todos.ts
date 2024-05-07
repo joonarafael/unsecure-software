@@ -1,6 +1,9 @@
-import { Todo } from "@/types";
+type ConstTodo = {
+	title: string;
+	description?: string;
+};
 
-const TODOS: Todo[] = [
+const TODOS: ConstTodo[] = [
 	{
 		title: "Send copy to editor for review.",
 		description: "Send the first 3 chapters of the book to the editor.",

@@ -1,16 +1,55 @@
 "use client";
 
-// USER PAGE CLIENT SIDE
+import axios from "axios";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import Container from "@/components/container";
 import { Button } from "@/components/ui/button";
 import { User } from "@/types";
 
-interface UserClientProps {
-	user: User;
-}
+const UserClient = () => {
+	const searchParams = useSearchParams();
+	const userId = searchParams.get("id");
 
-const UserClient = ({ user }: UserClientProps) => {
+	const [user, setUser] = useState<User | null>(null);
+
+	useEffect(() => {
+		if (userId) {
+			const values = {
+				userId: userId,
+			};
+
+			axios
+				.post("/api/getuser", values)
+				.then((res) => {
+					setUser(res.data.user);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
+	}, [userId]);
+
+	if (!user) {
+		return (
+			<Container>
+				<div className="flex flex-col gap-8 p-12 w-[600px]">
+					<p className="font-light">
+						<em>no user was fetched</em>
+					</p>
+					<h1 className="text-3xl font-extrabold">Is the URL correct?</h1>
+					<div className="flex gap-2 p-4 flex-col border rounded-lg"></div>
+					<a href="/dashboard" className="flex w-full">
+						<Button variant="outline" className="flex w-full" size="lg">
+							Back to dashboard
+						</Button>
+					</a>
+				</div>
+			</Container>
+		);
+	}
+
 	return (
 		<Container>
 			<div className="flex flex-col gap-8 p-12 w-[600px]">
@@ -37,11 +76,11 @@ const UserClient = ({ user }: UserClientProps) => {
 					</div>
 					<div className="flex w-full justify-between flex-row">
 						<p className="text-neutral-500">created at</p>
-						<p>{user.createdAt.toISOString()}</p>
+						<p>{JSON.stringify(user.createdAt)}</p>
 					</div>
 					<div className="flex w-full justify-between flex-row">
 						<p className="text-neutral-500">updated at</p>
-						<p>{user?.updatedAt?.toISOString()}</p>
+						<p>{JSON.stringify(user.updatedAt)}</p>
 					</div>
 				</div>
 				<a href="/dashboard" className="flex w-full">

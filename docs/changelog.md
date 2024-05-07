@@ -4,6 +4,8 @@
 
 ### 2024
 
+- 0.1.0; **May 7**: more functionality for todos
+
 - 0.1.0; **May 5**: db can be now populated with dummy data, first login protocols & user data fetching (unsecure by design)
 
 ## ALPHA

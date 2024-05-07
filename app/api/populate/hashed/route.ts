@@ -2,7 +2,7 @@
 
 import { NextResponse } from "next/server";
 
-import { populateDBHashed } from "@/setup/hashed/populatedbhashed";
+import { populateDBHashed } from "@/populate/hashed/populatedbhashed";
 
 export async function POST(request: Request) {
 	try {

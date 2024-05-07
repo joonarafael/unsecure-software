@@ -2,11 +2,16 @@
 
 import { NextResponse } from "next/server";
 
-import { populateDB } from "@/setup/plaintext/populatedb";
+import { db } from "@/lib/db";
+import { populateDB } from "@/populate/plaintext/populatedb";
 
 export async function POST(request: Request) {
 	try {
 		await populateDB();
+
+		const todos = await db.todo.findMany();
+
+		console.log(todos);
 
 		return NextResponse.json(
 			{

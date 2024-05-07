@@ -5,6 +5,7 @@ export async function populateDB() {
 	const ids = await populateUsers();
 
 	if (ids.length > 0) {
+		console.log("populating todos...");
 		await populateTodos(ids);
 	}
 
