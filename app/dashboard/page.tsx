@@ -77,9 +77,6 @@ const DashboardClient = () => {
 				</div>
 				<div className="flex gap-2 p-4 flex-col border rounded-lg">
 					<h3 className="text-lg font-bold">See your account information</h3>
-					<p className="text-neutral-500 text-sm">
-						<em>(both standard and admin users)</em>
-					</p>
 					<a href={`/user?id=${user?.id}`} className="flex w-full">
 						<Button className="flex w-full" size="lg">
 							I&apos;m interested

@@ -1,7 +1,7 @@
 "use client";
 
-import Container from "@/components/container";
-import { Button } from "@/components/ui/button";
+import Container from '@/components/container';
+import { Button } from '@/components/ui/button';
 
 const HomePage = () => {
 	return (
@@ -31,9 +31,6 @@ const HomePage = () => {
 				</div>
 				<div className="flex gap-2 p-4 flex-col border rounded-lg">
 					<h3 className="text-lg font-bold">2. Log in to your account</h3>
-					<p className="text-neutral-500 text-sm">
-						<em>(both standard and admin users)</em>
-					</p>
 					<a href="/auth/login" className="flex w-full">
 						<Button className="flex w-full" size="lg">
 							Log in

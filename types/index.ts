@@ -4,7 +4,6 @@ export type User = {
 	password?: string | null;
 	createdAt: Date;
 	updatedAt?: Date | null;
-	role: string;
 };
 
 export type Todo = {

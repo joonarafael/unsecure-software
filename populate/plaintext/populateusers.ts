@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 
-async function updateUser(username: string, password: string, admin?: boolean) {
+async function updateUser(username: string, password: string) {
 	const existing = await db.user.findFirst({
 		where: {
 			username: username,
@@ -24,17 +24,6 @@ async function updateUser(username: string, password: string, admin?: boolean) {
 			},
 		});
 
-		if (admin) {
-			await db.user.update({
-				data: {
-					role: "ADMIN",
-				},
-				where: {
-					id: create.id,
-				},
-			});
-		}
-
 		return create.id;
 	}
 }
@@ -42,7 +31,7 @@ async function updateUser(username: string, password: string, admin?: boolean) {
 export default async function populateUsers() {
 	let ids: string[] = [];
 
-	const aliceId = await updateUser("alice", "redqueen", true);
+	const aliceId = await updateUser("alice", "redqueen");
 
 	if (aliceId) {
 		ids.push(aliceId);

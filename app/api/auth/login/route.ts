@@ -33,7 +33,7 @@ export async function POST(request: Request) {
 		if (!existingUser) {
 			return NextResponse.json(
 				{
-					message: `Invalid username or password.`,
+					message: `No user named ${username} found.`,
 				},
 				{
 					status: 400,
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
 		if (!validPassword) {
 			return NextResponse.json(
 				{
-					message: `Invalid username or password.`,
+					message: `Password was not correct for user ${username}.`,
 				},
 				{
 					status: 400,

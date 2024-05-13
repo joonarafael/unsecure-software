@@ -2,11 +2,7 @@ import bcrypt from "bcryptjs";
 
 import { db } from "@/lib/db";
 
-async function updateUserHashed(
-	username: string,
-	password: string,
-	admin?: boolean
-) {
+async function updateUserHashed(username: string, password: string) {
 	const existing = await db.user.findFirst({
 		where: {
 			username: username,
@@ -32,17 +28,6 @@ async function updateUserHashed(
 			},
 		});
 
-		if (admin) {
-			await db.user.update({
-				data: {
-					role: "ADMIN",
-				},
-				where: {
-					id: create.id,
-				},
-			});
-		}
-
 		return create.id;
 	}
 }
@@ -50,7 +35,7 @@ async function updateUserHashed(
 export default async function populateUsersHashed() {
 	let ids: string[] = [];
 
-	const aliceId = await updateUserHashed("alice", "redqueen", true);
+	const aliceId = await updateUserHashed("alice", "redqueen");
 
 	if (aliceId) {
 		ids.push(aliceId);
