@@ -29,7 +29,6 @@ export async function POST(request: Request) {
 					username: true,
 					id: true,
 					createdAt: true,
-					role: true,
 				},
 			});
 

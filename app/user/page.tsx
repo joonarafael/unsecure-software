@@ -16,18 +16,23 @@ const UserClient = () => {
 
 	useEffect(() => {
 		if (userId) {
-			const values = {
-				userId: userId,
-			};
+			const jwtToken = sessionStorage.getItem("token");
 
-			axios
-				.post("/api/getuser", values)
-				.then((res) => {
-					setUser(res.data.user);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
+			if (jwtToken) {
+				const values = {
+					userId: userId,
+					headers: {
+						Authorization: `Bearer ${jwtToken}`,
+					},
+				};
+
+				axios
+					.post("/api/getuser", values)
+					.then((res) => {
+						setUser(res.data.user[0]);
+					})
+					.catch((error) => {});
+			}
 		}
 	}, [userId]);
 
@@ -69,10 +74,6 @@ const UserClient = () => {
 					<div className="flex w-full justify-between flex-row">
 						<p className="text-neutral-500">password</p>
 						<p>{user.password}</p>
-					</div>
-					<div className="flex w-full justify-between flex-row">
-						<p className="text-neutral-500">role</p>
-						<p>{user.role}</p>
 					</div>
 					<div className="flex w-full justify-between flex-row">
 						<p className="text-neutral-500">created at</p>
