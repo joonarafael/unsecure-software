@@ -1,12 +1,12 @@
 "use client";
 
-import axios from 'axios';
-import { useState, useTransition } from 'react';
+import axios from "axios";
+import { useState, useTransition } from "react";
 
-import Container from '@/components/container';
-import FormError from '@/components/formerror';
-import FormSuccess from '@/components/formsuccess';
-import { Button } from '@/components/ui/button';
+import Container from "@/components/container";
+import FormError from "@/components/formerror";
+import FormSuccess from "@/components/formsuccess";
+import { Button } from "@/components/ui/button";
 
 const PopulateClient = () => {
 	const [pending, startTransition] = useTransition();
@@ -83,8 +83,14 @@ const PopulateClient = () => {
 					<em>this is the panel to control</em>
 				</p>
 				<h1 className="text-3xl font-extrabold">THE DATABASE</h1>
+				<p className="font-light">
+					this is not part of the actual application, but merely a tool to
+					populate the database
+				</p>
 				<div className="flex gap-2 p-4 flex-col border rounded-lg">
-					<h3 className="text-lg font-bold">Clear the database</h3>
+					<h3 className="text-lg font-bold">
+						You messed up? My logic messed up?
+					</h3>
 					<p className="text-neutral-500 text-sm">
 						<em>(clear every single entry)</em>
 					</p>
@@ -103,7 +109,9 @@ const PopulateClient = () => {
 					{success && position === "clear" && <FormSuccess text={success} />}
 				</div>
 				<div className="flex gap-2 p-4 flex-col border rounded-lg">
-					<h3 className="text-lg font-bold">Add plaintext password entries</h3>
+					<h3 className="text-lg font-bold">
+						Add or convert to plaintext password entries
+					</h3>
 					<p className="text-neutral-500 text-sm">
 						<em>(entries will be either added or existing ones modified)</em>
 					</p>
@@ -115,8 +123,9 @@ const PopulateClient = () => {
 						className="flex w-full"
 						size="lg"
 					>
-						Add plaintext (the unsafe option)
+						Populate with plaintext passwords (the unsafe option)
 					</Button>
+					<p className="font-bold">Start with this!</p>
 					{error && position === "plaintext" && <FormError text={error} />}
 					{success && position === "plaintext" && (
 						<FormSuccess text={success} />
@@ -124,7 +133,7 @@ const PopulateClient = () => {
 				</div>
 				<div className="flex gap-2 p-4 flex-col border rounded-lg">
 					<h3 className="text-lg font-bold">
-						Add entries with hashed passwords
+						Add or convert to hashed passwords entries
 					</h3>
 					<p className="text-neutral-500 text-sm">
 						<em>(entries will be either added or existing ones modified)</em>
@@ -137,7 +146,7 @@ const PopulateClient = () => {
 						className="flex w-full"
 						size="lg"
 					>
-						Add entries with hashed passwords (the safe option)
+						Populate with hashed passwords (the safe option)
 					</Button>
 					{error && position === "hashed" && <FormError text={error} />}
 					{success && position === "hashed" && <FormSuccess text={success} />}

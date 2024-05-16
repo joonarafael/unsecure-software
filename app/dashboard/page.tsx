@@ -29,7 +29,22 @@ const DashboardClient = () => {
 		}
 	}, []);
 
-	const logOut = () => {
+	const logOut = async () => {
+		const jwtToken = sessionStorage.getItem("token");
+
+		if (jwtToken) {
+			const values = {
+				headers: {
+					Authorization: `Bearer ${jwtToken}`,
+				},
+			};
+
+			await axios
+				.post("/api/auth/logout", values)
+				.then((res) => {})
+				.catch((error) => {});
+		}
+
 		sessionStorage.removeItem("token");
 		window.open("/", "_self");
 	};

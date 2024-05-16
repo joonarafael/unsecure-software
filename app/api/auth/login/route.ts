@@ -1,5 +1,7 @@
 "use server";
 
+import bcrypt from "bcryptjs";
+import crypto from "crypto";
 import jsonwebtoken from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
@@ -41,7 +43,12 @@ export async function POST(request: Request) {
 			);
 		}
 
-		const validPassword = existingUser.password === password;
+		// uncomment the password validation that corresponds to the password hashing method used
+		// password validation for plaintext
+		// const validPassword = existingUser.password === password;
+
+		// password validation for hashed
+		const validPassword = await bcrypt.compare(password, existingUser.password);
 
 		if (!validPassword) {
 			return NextResponse.json(
@@ -54,10 +61,22 @@ export async function POST(request: Request) {
 			);
 		}
 
+		const accessToken = crypto.randomBytes(64).toString("hex");
+
+		await db.user.update({
+			where: {
+				id: existingUser.id,
+			},
+			data: {
+				accessToken: accessToken,
+			},
+		});
+
 		const jwtToken = sign(
 			{
 				id: existingUser.id,
 				username: existingUser.username,
+				accessToken: accessToken,
 			},
 			process.env.JWT_SECRET ?? "typescript-wonders"
 		);

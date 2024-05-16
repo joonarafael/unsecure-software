@@ -55,6 +55,13 @@ const UserClient = () => {
 		);
 	}
 
+	let password = user.password;
+
+	if (password && password?.length > 20) {
+		password = password.slice(0, 20);
+		password += "...";
+	}
+
 	return (
 		<Container>
 			<div className="flex flex-col gap-8 p-12 w-[600px]">
@@ -73,7 +80,7 @@ const UserClient = () => {
 					</div>
 					<div className="flex w-full justify-between flex-row">
 						<p className="text-neutral-500">password</p>
-						<p>{user.password}</p>
+						<p>{password}</p>
 					</div>
 					<div className="flex w-full justify-between flex-row">
 						<p className="text-neutral-500">created at</p>

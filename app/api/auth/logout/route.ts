@@ -34,35 +34,29 @@ export async function POST(request: Request) {
 			});
 
 			if (verifiedUser) {
-				const todos = await db.todo.findMany({
-					where: {
-						userId: verifiedUser.id,
-					},
-				});
-
 				return NextResponse.json(
 					{
-						todos: todos,
+						message: "Logout successful.",
 					},
 					{
 						status: 200,
 					}
 				);
-			}
 
-			return NextResponse.json(
-				{
-					user: "Invalid token.",
-				},
-				{
-					status: 400,
-				}
-			);
+				await db.user.update({
+					where: {
+						id: jwtToken.id,
+					},
+					data: {
+						accessToken: "null",
+					},
+				});
+			}
 		}
 
 		return NextResponse.json(
 			{
-				message: "Todos could not be fetched.",
+				message: "Logout unsuccessful.",
 			},
 			{
 				status: 400,

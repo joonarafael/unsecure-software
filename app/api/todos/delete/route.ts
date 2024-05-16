@@ -24,6 +24,7 @@ export async function POST(request: Request) {
 				where: {
 					id: jwtToken.id,
 					username: jwtToken.username,
+					accessToken: jwtToken.accessToken,
 				},
 			});
 
