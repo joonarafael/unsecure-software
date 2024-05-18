@@ -45,10 +45,10 @@ export async function POST(request: Request) {
 
 		// uncomment the password validation that corresponds to the password hashing method used
 		// password validation for plaintext
-		// const validPassword = existingUser.password === password;
+		const validPassword = existingUser.password === password;
 
 		// password validation for hashed
-		const validPassword = await bcrypt.compare(password, existingUser.password);
+		// const validPassword = await bcrypt.compare(password, existingUser.password);
 
 		if (!validPassword) {
 			return NextResponse.json(
