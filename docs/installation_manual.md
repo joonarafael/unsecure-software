@@ -12,6 +12,8 @@ This web application runs as a _Next.js_ server and utilizes a Postgres database
 
 - Get an empty Postgres database running. Use the official _Docker_ image or whatever you like. Change the `DATABASE_URL` environment variable accordingly within `.env`.
 
+- Generate a _Prisma_ client by executing `npx prisma generate` in the terminal and upload the database schema to your Postgres database with `npx prisma db push`.
+
 - Run the application with `npm run dev` (or `yarn dev`).
 
 ## Not-So-Advanced Users
