@@ -136,8 +136,8 @@ Then, remove the client-side user data fetching request logic within the user pa
 25                  .post("/api/getuser", values)
 26                  .then((res) => {
 27                      setUser(res.data.user);
-38                  })
-39                  .catch((error) => {});
+28                  })
+29                  .catch((error) => {});
 30          }
 31      }, []);
 32
