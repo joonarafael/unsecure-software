@@ -46,7 +46,9 @@ While logged in, replace the user ID within the URL `?id=` search parameter to `
 
 ### How this is present in my application
 
-Response messages from the server during login are not generic. They give away information about the user's existence in the database. Other insecure design issues are present in the API design as well, like the returning of passwords, which is not necessary when users are inspecting their account details.
+Response messages from the server during login are not generic. They give away information about the user's existence in the database.
+
+Other insecure design issues are present in the API design as well, like the returning of passwords and access tokens, which should not be returned to user when inspecting their account details.
 
 ### How to perform an attack against the unsecure system yourself
 

@@ -1,9 +1,9 @@
 "use server";
 
-import jsonwebtoken from "jsonwebtoken";
-import { NextResponse } from "next/server";
+import jsonwebtoken from 'jsonwebtoken';
+import { NextResponse } from 'next/server';
 
-import { db } from "@/lib/db";
+import { db } from '@/lib/db';
 
 const { verify } = jsonwebtoken;
 
@@ -11,8 +11,6 @@ export async function POST(request: Request) {
 	try {
 		const body = await request.json();
 		const { headers, todo } = body;
-
-		console.log(todo);
 
 		const bearer = headers.Authorization.split(" ")[1];
 
@@ -22,6 +20,17 @@ export async function POST(request: Request) {
 		);
 
 		if (typeof jwtToken === "object" && jwtToken.id && jwtToken.username) {
+			if (jwtToken.accessToken === "null") {
+				return NextResponse.json(
+					{
+						user: "Invalid token.",
+					},
+					{
+						status: 401,
+					}
+				);
+			}
+
 			const verifiedUser = await db.user.findFirst({
 				where: {
 					id: jwtToken.id,
@@ -54,7 +63,7 @@ export async function POST(request: Request) {
 					user: "Invalid token.",
 				},
 				{
-					status: 400,
+					status: 401,
 				}
 			);
 		}

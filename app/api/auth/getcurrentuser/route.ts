@@ -20,6 +20,17 @@ export async function POST(request: Request) {
 		);
 
 		if (typeof jwtToken === "object" && jwtToken.id && jwtToken.username) {
+			if (jwtToken.accessToken === "null") {
+				return NextResponse.json(
+					{
+						user: "Invalid token.",
+					},
+					{
+						status: 401,
+					}
+				);
+			}
+
 			const verifiedUser = await db.user.findFirst({
 				where: {
 					id: jwtToken.id,
@@ -49,7 +60,7 @@ export async function POST(request: Request) {
 					user: "Invalid token.",
 				},
 				{
-					status: 400,
+					status: 401,
 				}
 			);
 		}

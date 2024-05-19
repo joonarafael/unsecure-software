@@ -43,11 +43,8 @@ export async function POST(request: Request) {
 			);
 		}
 
-		// uncomment the password validation that corresponds to the password hashing method used
-		// password validation for plaintext
+		// comment / uncomment code below to switch between hashed and plaintext password comparison
 		const validPassword = existingUser.password === password;
-
-		// password validation for hashed
 		// const validPassword = await bcrypt.compare(password, existingUser.password);
 
 		if (!validPassword) {
