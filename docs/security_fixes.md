@@ -1,10 +1,10 @@
-# SECURITY ISSUES
+# SECURITY FIXES
 
 ## Fixing [Issue 2](./security_issues.md#issue-2---a02-cryptographic-failures "Issue 2 - Cryptographic Failures")
 
-Replace plaintext passwords with hashed passwords in the database through the database control panel (behind button "_Let's do it_" on index page or route `/populate`).
+Replace plaintext passwords with hashed passwords in the database through the database control panel (behind button "_Let's do it_" on index page or route `/populate`). Login credentials remain the same, they are just stored in a more secure manner.
 
-Then, change the authentication logic within the _login API endpoint_ (file `/app/api/auth/login/route.ts`) to look like this:
+Then, change the authentication logic within the _login API endpoint_ (file [`/app/api/auth/login/route.ts`](../app/api/auth/login/route.ts "Open file")) to look like this:
 
 ```typescript
 ...
@@ -22,7 +22,7 @@ Then, change the authentication logic within the _login API endpoint_ (file `/ap
 
 ## Fixing [Issue 4](./security_issues.md#issue-4---a04-insecure-design "Issue 4 - Insecure Design")
 
-Let's make the login response more generic. Change every response message within the _login API endpoint_ (file `/app/api/auth/login/route.ts`) to look like this:
+Let's make the login error response messages more generic. Change every response message within the _login API endpoint_ (file [`/app/api/auth/login/route.ts`](../app/api/auth/login/route.ts "Open file")) to look like this:
 
 ```typescript
 ...
@@ -39,11 +39,9 @@ return NextResponse.json(
 
 These messages exist on lines [21](https://github.com/joonarafael/unsecure-software/blob/1d9ec2805918650ab06ca7d7634e54bbac8e4a8d/app/api/auth/login/route.ts#L21 "View exact line on GitHub"), [38](https://github.com/joonarafael/unsecure-software/blob/1d9ec2805918650ab06ca7d7634e54bbac8e4a8d/app/api/auth/login/route.ts#L38 "View exact line on GitHub"), and [56](https://github.com/joonarafael/unsecure-software/blob/1d9ec2805918650ab06ca7d7634e54bbac8e4a8d/app/api/auth/login/route.ts#L56 "View exact line on GitHub").
 
-We should also make the user data fetching more secure. Change the user data fetching within the _getUser API endpoint_ (file `/app/api/getuser/route.ts`) to look like this:
-
 ## Fixing [Issue 5](./security_issues.md#issue-5---a07-identification-and-authentication-failures "Issue 5 - Identification and Authentication Failures")
 
-Let's invalidate tokens on logout. Change the logout logic within the _logout API endpoint_ (file `/app/api/auth/logout/route.ts`) to look like this:
+Let's invalidate tokens on logout. Change the logout logic within the _logout API endpoint_ (file [`/app/api/auth/logout/route.ts`](../app/api/auth/logout/route.ts "Open file")) to look like this:
 
 ```typescript
 ...
@@ -73,11 +71,11 @@ Let's invalidate tokens on logout. Change the logout logic within the _logout AP
 ...
 ```
 
-Now after logout no requests made with the old token will get through as any request made with an `accessToken` equal to `"null"` will be globally rejected by the API routes.
+Now after user logs out, no requests made with the old token will get through. Any request made with an `accessToken` equal to `"null"` will be globally rejected by the API routes.
 
 ## Fixing [Issue 1](./security_issues.md#issue-1---a01-broken-access-control "Issue 1 - Broken Access Control") and [Issue 3](./security_issues.md#issue-3---a03-injection "Issue 3 - Injection")
 
-Let's not fetch the user data based on the URL search parameter. Change the user data fetching within the _getUser API endpoint_ (file `/app/api/getuser/route.ts`) to look like this:
+We'll address both the broken access control and injection simply by not fetching the user data based on the URL search parameter. Change the user data fetching within the _getUser API endpoint_ (file [`/app/api/getuser/route.ts`](../app/api/getuser/route.ts "Open file")) to look like this:
 
 ```typescript
 ...
@@ -99,7 +97,7 @@ Now the user data fetching is based on the user ID from the token, not from the 
 
 **OPTIONAL**: If you want, you may remove the URL search parameter logic completely from the application.
 
-First, update the button on the dashboard page (file `/app/dashboard/page.tsx`) to look like this:
+First, update the button on the dashboard page (file [`/app/dashboard/page.tsx`](../app/dashboard/page.tsx "Open file")) to look like this:
 
 ```typescript
 ...
@@ -113,7 +111,7 @@ First, update the button on the dashboard page (file `/app/dashboard/page.tsx`) 
 ...
 ```
 
-Then, remove the client-side user data fetching request logic within the user page (file `/app/user/page.tsx`) to look like this:
+Then, remove the "client-side user data fetching request logic" within the user page (file [`/app/user/page.tsx`](../app/user/page.tsx "Open file")) to look like this:
 
 ```typescript
 ...
@@ -148,9 +146,9 @@ Then, remove the client-side user data fetching request logic within the user pa
 
 ## Further Fixing [Issue 4](./security_issues.md#issue-4---a04-insecure-design "Issue 4 - Insecure Design")
 
-Let's not return passwords and access tokens in the API responses while fetching user info. Change the user data fetching within the _getUser API endpoint_ (file `/app/api/getuser/route.ts`) to look like this:
+Let's not return passwords and access tokens in the API responses while fetching user info. Change the user data fetching within the _getUser API endpoint_ (file [`/app/api/getuser/route.ts`](../app/api/getuser/route.ts "Open file")) to look like this:
 
-**Assuming you fixed already [issues 1 and 3 above](./security_fixes.md#fixing-issue-1-and-issue-3 "Fixing Issue 1 and Issue 3")**:
+**Assuming you fixed already [issues 1 and 3 above](./security_fixes.md#fixing-issue-1-and-issue-3 "Fixing Issue 1 and Issue 3")**!
 
 ```typescript
 ...
@@ -174,7 +172,7 @@ Let's not return passwords and access tokens in the API responses while fetching
 ...
 ```
 
-You may also want to change the client UI to not display the empty password (optional, purely a cosmetic touch). Change the user page (file `/app/user/page.tsx`) to look like this:
+You may also want to change the client UI to not display the empty password (optional, purely a cosmetic touch). Change the user page (file [`/app/user/page.tsx`](../app/user/page.tsx "Open file")) to look like this:
 
 ```typescript
 ...

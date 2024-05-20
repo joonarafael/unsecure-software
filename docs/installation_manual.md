@@ -1,6 +1,6 @@
 # INSTALLATION MANUAL
 
-This manual will provide you with step-by-step instructions on how to get this application running on your own local machine along with the _Postgres_ database.
+This manual will provide you with step-by-step instructions on how to get this application running on your own local machine along with the _Postgres_ database for long-term storage.
 
 ## Advanced Users
 
@@ -68,23 +68,23 @@ When running the first time, it might take some time to first download the image
 
 **SOME POSSIBLE ERRORS** you might encounter are:
 
-- _Address already in use_: **There is already a process running on your machine that occupies port number 5432**. One option is to just kill the other occupying process. However, an easier solution would be to replace the current port configuration from `5432:5432` to **just** `5432`. This way Postgres database will be automatically initialized to a free port on your machine. You may check the designated port number with `docker ps -a`. Doing this, however, means that the environment variable for the `DATABASE_URL` (within the file called `.env` at project root) (**OR** the `docker run` command argument) has to be changed accordingly. Change the port number within the `DATABASE_URL` environment variable. It is set as `5432` as default.
+- _Address already in use_: **There is already a process running on your machine that occupies port number 5432**. One option is to just kill the other occupying process. However, an easier solution would be to replace the current port configuration from `5432:5432` to **just** `5432`. This way Postgres database will be automatically initialized to a free port on your machine. You may check the designated port number with `docker ps -a`. Doing this, however, means that the environment variable for the `DATABASE_URL` (within the file called `.env` at project root) (**OR** the `docker run` command argument below) has to be changed accordingly. Change the port number within the `DATABASE_URL` environment variable. It is set as `5432` as default.
 
 - _Container name already in use_: **There already exists a Docker container with the same exact name on your local machine**. Either remove it (if it's redundant) or give a differing name for the new container. The name in question is the argument after `--name` flag the within the command provided above. It's `postgres-container` as default.
 
 ### Some Useful Docker Tips
 
-Check all running Docker containers with `docker ps -a` and all images with `docker images`.
+- Check all running Docker containers with `docker ps -a` and all images with `docker images`.
 
-Any container can be stopped with `docker stop {container}` and deleted with `docker rm {container}`.
+- Any container can be stopped with `docker stop {container}` and deleted with `docker rm {container}`.
 
-Any image can be deleted wih `docker rmi {image:version}`.
+- Any image can be deleted wih `docker rmi {image:version}`.
 
-Any Docker network can be deleted with `docker network rm {network}`.
+- Any Docker network can be deleted with `docker network rm {network}`.
 
-### Create The Docker Image For The Server
+### Create The Docker Image For The App
 
-Create the Docker image for the server out of the source code within this repository by executing
+Create the Docker image for the app out of the source code within this repository by executing
 
 ```
 docker build -f Dockerfile.dev -t unsecureapp .
@@ -98,8 +98,8 @@ After a successful creation of the Docker image, launch it with
 docker run --name application-container -it -p 3000:3000 -e DATABASE_URL="postgresql://postgres:mysecretpassword@postgres-container:5432/postgres?schema=SCHEMA" --network=unsecurenetwork unsecureapp
 ```
 
-If port 3000 is unavailable (e.g. already in use), change the port argument from `3000:3000` to just `3000`. This way it will be automatically reset to a free port on your machine.
-
 **If you had to change the port number for your Postgres database instance**, please adjust the default port number within the command argument for the environment above. Default is `5432`.
 
-Now open the web browser of your choice and navigate to [localhost:3000](http://localhost:3000 "Your localhost:3000"), or whatever the correct port is for your `application-container` Docker container.
+If port 3000 is unavailable (e.g. already in use), change the port argument from `3000:3000` to just `3000`. This way it will be automatically reset to a free port on your machine.
+
+Now open the web browser of your choice and navigate to [localhost:3000](http://localhost:3000 "Your localhost:3000"), or whatever the correct port is for your `application-container` Docker container (check designated port numbers with `docker ps -a`).

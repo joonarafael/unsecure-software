@@ -6,4 +6,4 @@
 
 Other pages and routes for the website are built by creating subsequent directories under `/app`. To make a route accessible for the user (and not result into a 404), we **must** include a file named `page.tsx` (with a _default export_) within that directory. This tells the router that here exists a real HTML page.
 
-I've built this web application so that all server-side logic, e.g. the _business logic_, is always executed on `page.tsx`. Only after this logic is executed, the client will be provided with the final page and _client only_ components, that require no server-sided logic whatsoever.
+By default, pages will be rendered on the server, and only then returned to the client. Files with a `"use client";` directive will be rendered on the client-side only. This is useful for pages that need interactive elements or otherwise include processing/displaying user's personal/customized data.
