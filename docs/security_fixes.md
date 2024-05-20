@@ -1,5 +1,9 @@
 # SECURITY FIXES
 
+This document will provide you with the necessary steps to fix the security issues present in the application. The fixes are based on the issues described in [this document](./security_issues.md "Security Issues").
+
+**NOTE**: If you are running the application locally as a _Docker_ container, you will need to build the image again after making these changes. The application will not automatically update itself when modifying the source code. See the [Installation Manual](https://github.com/joonarafael/unsecure-software/blob/main/docs/installation_manual.md#create-the-docker-image-for-the-app "Installation Manual") for more information on how to build the Docker image.
+
 ## Fixing [Issue 2](./security_issues.md#issue-2---a02-cryptographic-failures "Issue 2 - Cryptographic Failures")
 
 Replace plaintext passwords with hashed passwords in the database through the database control panel (behind button "_Let's do it_" on index page or route `/populate`). Login credentials remain the same, they are just stored in a more secure manner.
@@ -201,4 +205,6 @@ You may also want to change the client UI to not display the empty password (opt
 ...
 ```
 
-### Congrats, you just made the application substantially more secure! 🎉
+## Congrats, you just made the application substantially more secure! 🎉
+
+Now rebuild the Docker image and run the application again. You can try again all the described attacks in the [Security Issues document](./security_issues.md "Security Issues") and learn that none work anymore!

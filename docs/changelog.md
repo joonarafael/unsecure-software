@@ -4,6 +4,8 @@
 
 ### 2024
 
+- 0.1.0; **May 20**: continued writing docs
+
 - 0.1.0; **May 19**: wrote a bunch of docs (how to fix issues), finalized API routes
 
 - 0.1.0; **May 16**: added the logout functionality, fine-tuned the vulnerabilities

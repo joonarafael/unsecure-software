@@ -1,5 +1,7 @@
 # SECURITY ISSUES
 
+This document describes all the security issues present in the application. The issues are based on the [OWASP Top 10 list for 2021](https://owasp.org/www-project-top-ten/ "OWASP Top Ten"). There are five issues present in the application.
+
 ## Issue 1 - [A01 Broken Access Control](https://owasp.org/Top10/A01_2021-Broken_Access_Control/ "OWASP/Top 10: Broken Access Control")
 
 **OWASP**: "_Bypassing access control checks by modifying the URL (parameter tampering or force browsing), internal application state, or the HTML page, or by using an attack tool modifying API requests._"
@@ -53,6 +55,10 @@ Other insecure design issues are present in the API design as well, like the ret
 ### How to perform an attack against the unsecure system yourself
 
 Try to login with wrong credentials. The response message will tell you if the user exists in the database or not. And if the user exists, it will tell you that the password is wrong.
+
+Also check the full response object from the API when loading the `/user` page. It will return the user's access token.
+
+**How to view network traffic?** Open developer tools with F12. Open "Network" tab and browse through the traffic history. Some browsers may require you to refresh the page to see the network traffic (at least _Firefox_).
 
 ## Issue 5 - [A07 Identification and Authentication Failures](https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/ "OWASP/Top 10: Identification and Authentication Failures")
 
