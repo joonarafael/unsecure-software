@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres-container
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+    ports:
+      - "5432"
+    networks:
+      - unsecurenetwork
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: application-container
+    ports:
+      - "3000"
+    environment:
+      DATABASE_URL: "postgresql://postgres:mysecretpassword@postgres:5432/postgres?schema=SCHEMA"
+    depends_on:
+      - postgres
+    networks:
+      - unsecurenetwork
+
+networks:
+  unsecurenetwork:
+    driver: bridge

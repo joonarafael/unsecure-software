@@ -2,22 +2,6 @@
 
 This manual will provide you with step-by-step instructions on how to get this application running on your own local machine along with the _Postgres_ database for long-term storage.
 
-## Advanced Users
-
-This web application runs as a _Next.js_ server and utilizes a Postgres database to store long-term data. If you are already familiar with Next.js web apps, and you know what you are doing, you may follow this quick start guide:
-
-**QUICK START**:
-
-- Clone this repository to your machine and install dependencies by executing `npm i` (or `yarn` if you are using _Yarn_) in repository root, next to `package.json`.
-
-- Get an empty Postgres database running. Use the official _Docker_ image or whatever you like. Change the `DATABASE_URL` environment variable accordingly within `.env`.
-
-- Generate a _Prisma_ client by executing `npx prisma generate` in the terminal and upload the database schema to your Postgres database with `npx prisma db push`.
-
-- Run the application with `npm run dev` (or `yarn dev`).
-
-## Not-So-Advanced Users
-
 ### Cloning The Repository
 
 Get your hands on the source code by cloning this repository to your local machine by executing
@@ -48,29 +32,19 @@ For Windows users, it's suggested to switch to a _Bash_ terminal. New _Visual St
 
 If you're running on Windows and a Bash terminal instance is not an option for you, you will have to figure out another way to open a terminal instance. An option to open it in _PowerShell_ might appear for you by right-clicking the directory.
 
-### Create Docker Network
+### Launch The Database and Application With Docker Compose
 
-Initialize a Docker network to create a bridge for the two individual Docker containers to get them to communicate with each other.
-
-```
-docker network create unsecurenetwork
-```
-
-### The Database
-
-Get the Postgres database running as a Docker container by executing
+To launch both the _Postgres_ database and the application, execute the following command in the terminal:
 
 ```
-docker run --name postgres-container -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d --network=unsecurenetwork postgres
+docker-compose up --build -d
 ```
 
-When running the first time, it might take some time to first download the image (as it probably won't find it locally) and then start the container.
+The setup and launch might take a moment, be patient.
 
-**SOME POSSIBLE ERRORS** you might encounter are:
+Connect to the application by opening your web browser and navigating to [localhost:3000](http://localhost:3000 "Your localhost:3000"), or whatever the correct port is for your `application-container` Docker container (check designated port numbers with `docker ps`).
 
-- _Address already in use_: **There is already a process running on your machine that occupies port number 5432**. One option is to just kill the other occupying process. However, an easier solution would be to replace the current port configuration from `5432:5432` to **just** `5432`. This way Postgres database will be automatically initialized to a free port on your machine. You may check the designated port number with `docker ps -a`. Doing this, however, means that the environment variable for the `DATABASE_URL` (within the file called `.env` at project root) (**OR** the `docker run` command argument below) has to be changed accordingly. Change the port number within the `DATABASE_URL` environment variable. It is set as `5432` as default.
-
-- _Container name already in use_: **There already exists a Docker container with the same exact name on your local machine**. Either remove it (if it's redundant) or give a differing name for the new container. The name in question is the argument after `--name` flag the within the command provided above. It's `postgres-container` as default.
+The port number is listed below the `PORTS` column. The default port number is `3000`, but it will be automatically assigned to a free port on your machine if port `3000` is already in use. For example, one time on my machine the port assignment looked like this: `0.0.0.0:32769->3000/tcp, :::32769->3000/tcp`. I reached the application then from [localhost:32769](http://localhost:32769 "Your localhost:32769").
 
 ### Some Useful Docker Tips
 
@@ -82,24 +56,10 @@ When running the first time, it might take some time to first download the image
 
 - Any Docker network can be deleted with `docker network rm {network}`.
 
-### Create The Docker Image For The App
+### Rebuilding The Application
 
-Create the Docker image for the app out of the source code within this repository by executing
-
-```
-docker build -f Dockerfile.dev -t unsecureapp .
-```
-
-at the _project root_. With 'project root' I mean the root of this Git repository. At the project root, you will find files as `Dockerfile.dev` and `package.json`.
-
-After a successful creation of the Docker image, launch it with
+Make sure to rebuild the application after making changes to the source code. Stop the running containers and execute the same Docker command in the terminal again:
 
 ```
-docker run --name application-container -it -p 3000:3000 -e DATABASE_URL="postgresql://postgres:mysecretpassword@postgres-container:5432/postgres?schema=SCHEMA" --network=unsecurenetwork unsecureapp
+docker-compose up --build -d
 ```
-
-**If you had to change the port number for your Postgres database instance**, please adjust the default port number within the command argument for the environment above. Default is `5432`.
-
-If port 3000 is unavailable (e.g. already in use), change the port argument from `3000:3000` to just `3000`. This way it will be automatically reset to a free port on your machine.
-
-Now open the web browser of your choice and navigate to [localhost:3000](http://localhost:3000 "Your localhost:3000"), or whatever the correct port is for your `application-container` Docker container (check designated port numbers with `docker ps -a`).

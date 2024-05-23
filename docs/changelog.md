@@ -1,8 +1,12 @@
 # CHANGELOG
 
-## BETA
+## 2024
 
-### 2024
+- 1.0.0; **May 23**: switched to Docker Compose
+
+### Beta
+
+- 0.1.0; **May 20**: continued writing docs
 
 - 0.1.0; **May 20**: continued writing docs
 
@@ -16,9 +20,7 @@
 
 - 0.1.0; **May 5**: db can be now populated with dummy data, first login protocols & user data fetching (unsecure by design)
 
-## ALPHA
-
-### 2024
+### Alpha
 
 - 0.0.1; **May 4**: crafted first version of the login API route, started creating the dummy data for db
 
