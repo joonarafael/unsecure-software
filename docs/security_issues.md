@@ -68,8 +68,15 @@ Also check the full response object from the API when loading the `/user` page. 
 
 The session token is not invalidated when the user logs out. The token is still valid and can be used to access the system. The token is, however, invalidated/updated when the user logs in again. This still leaves a window of opportunity for an attacker to use the token to access the system.
 
+**On top of that**, the token is stored in the session storage of the browser. This means that the token is not stored in a secure manner; token-based authentication should be stored in a secure _HttpOnly_-cookie in a real-life application. However, to keep the application simple, the token is stored in the session storage.
+
 ### How to perform an attack against the unsecure system yourself
 
 Log in as any user. Copy the value for the `token` key from your browser's session storage. Now log out by clicking "I wanna get out" button on dashboard. Open a new tab in your browser and visit the `/user` page (still logged out). Open developer tools and create an entry into the session storage for `token` with the copied value. Refresh the page. You are now logged in as the user you copied the token from.
 
-**How to access session storage?** Open developer tools with F12. If using _Chrome_, open tab "Application" and below subheader "Storage", click "Session storage". If using _Firefox_, open tab "Storage" and click "Session Storage". The route is similar with other web browsers as well.
+**How to access session storage?** First, open developer tools with F12.
+
+- If using _Chrome_ or _MS Edge_, open tab "Application" and below subheader "Storage", click "Session storage".
+- If using _Firefox_, open tab "Storage" and click "Session Storage".
+
+The route is largely similar with other web browsers as well.

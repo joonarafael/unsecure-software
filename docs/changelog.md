@@ -2,6 +2,8 @@
 
 ## 2024
 
+- 1.0.0; **May 27**: documentation is now finished for Docker compose
+
 - 1.0.0; **May 23**: switched to Docker Compose
 
 ### Beta

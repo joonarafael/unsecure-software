@@ -24,20 +24,16 @@ The Internet and YouTube are also full of short informative installation guides 
 
 ### Opening Directory in Terminal
 
-Open a new terminal instance at the newly downloaded repository or otherwise navigate into it.
+Open a new terminal instance in the newly downloaded repository **or** otherwise navigate into it.
 
-Linux and MacOs users can navigate with `cd unsecure-software` natively within the terminal.
-
-For Windows users, it's suggested to switch to a _Bash_ terminal. New _Visual Studio Code_ installations will have a Bash terminal ready-to-go out of the box. In a Bash terminal the `cd` command will work the same as for Linux and MacOS users.
-
-If you're running on Windows and a Bash terminal instance is not an option for you, you will have to figure out another way to open a terminal instance. An option to open it in _PowerShell_ might appear for you by right-clicking the directory.
+Bash terminal users (like Linux and MacOS) users can navigate with `cd unsecure-software` natively within the terminal.
 
 ### Launch The Database and Application With Docker Compose
 
 To launch both the _Postgres_ database and the application, execute the following command in the terminal:
 
 ```
-docker-compose up --build -d
+docker compose up --build -d
 ```
 
 The setup and launch might take a moment, be patient.
@@ -46,11 +42,21 @@ Connect to the application by opening your web browser and navigating to [localh
 
 The port number is listed below the `PORTS` column. The default port number is `3000`, but it will be automatically assigned to a free port on your machine if port `3000` is already in use. For example, one time on my machine the port assignment looked like this: `0.0.0.0:32769->3000/tcp, :::32769->3000/tcp`. I reached the application then from [localhost:32769](http://localhost:32769 "Your localhost:32769").
 
+### Shutting The Application Down
+
+To shut down the application and the database, execute the following command in the terminal:
+
+```
+docker compose down
+```
+
 ### Some Useful Docker Tips
 
-- Check all running Docker containers with `docker ps -a` and all images with `docker images`.
+- Check all your Docker containers with `docker ps -a` and all images with `docker images`.
 
-- Any container can be stopped with `docker stop {container}` and deleted with `docker rm {container}`.
+- List all Docker networks with `docker network ls`.
+
+- Any container can be **first** stopped with `docker stop {container}` and **then** deleted with `docker rm {container}`.
 
 - Any image can be deleted wih `docker rmi {image:version}`.
 
@@ -58,8 +64,8 @@ The port number is listed below the `PORTS` column. The default port number is `
 
 ### Rebuilding The Application
 
-Make sure to rebuild the application after making changes to the source code. Stop the running containers and execute the same Docker command in the terminal again:
+Make sure to rebuild the image after making changes to the source code for the fixed application. Stop the running container, delete the old image and execute again the same Docker command in the terminal:
 
 ```
-docker-compose up --build -d
+docker compose up --build -d
 ```
