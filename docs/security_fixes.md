@@ -79,7 +79,7 @@ Now after user logs out, no requests made with the old token will get through. A
 
 ## Fixing [Issue 1](./security_issues.md#issue-1---a01-broken-access-control "Issue 1 - Broken Access Control") and [Issue 3](./security_issues.md#issue-3---a03-injection "Issue 3 - Injection")
 
-We'll address both the broken access control and injection simply by not fetching the user data based on the URL search parameter. Change the user data fetching within the _getUser API endpoint_ (file [`/app/api/getuser/route.ts`](../app/api/getuser/route.ts "Open file")) to look like this:
+We'll address both the broken access control and injection simply by not fetching the user data based on the URL search parameter. Change the user data fetching within the `getUser` _API endpoint_ (file [`/app/api/getuser/route.ts`](../app/api/getuser/route.ts "Open file")) to look like this:
 
 ```typescript
 ...
@@ -115,7 +115,7 @@ First, update the button on the dashboard page (file [`/app/dashboard/page.tsx`]
 ...
 ```
 
-Then, remove the "client-side user data fetching request logic" within the user page (file [`/app/user/page.tsx`](../app/user/page.tsx "Open file")) to look like this:
+Then, remove the "client-side user data fetching logic" within the user page (file [`/app/user/page.tsx`](../app/user/page.tsx "Open file")) to look like this:
 
 ```typescript
 ...

@@ -8,10 +8,28 @@ Index page is the landing page for the application. It contains a brief introduc
 
 ## DB Control Panel
 
+This is not really a part of the application. As I did not build real registration functionality, I've included a button to populate the database with some default users. This is behind the button "_Let's do it_" on the index page or route `/populate`.
+
+**Do not consider this as a part of the application. It is only there to help you populate the database with some default users** (and later switch to hashed passwords). **This is not a part of the intended use of the application.**
+
 ## Login
+
+Login page is where you can log in to the application. You can use the following credentials to log in:
+
+```
+alice:redqueen
+bob:squarepants
+patrick:star
+```
 
 ## Dashboard
 
+Once logged in, you will be redirected to the dashboard. This page contains a welcome message and some buttons; one to navigate to _Todo_ page, one to navigate to the _user information_ page, and one to log out.
+
 ## Todos
 
+Todos page is where you can see your todos. You can add new todos, mark them as done, or delete them. You can also navigate back to the dashboard.
+
 ## User Information Page
+
+On the User Information page, you can see your account details. This includes your username, password, and email. You can also navigate back to the dashboard.

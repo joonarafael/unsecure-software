@@ -20,7 +20,11 @@ User ID generation is quite safe, so try not to guess a user ID. Instead, copy a
 
 ### How this is present in my application
 
-As a default, passwords are not encrypted in the database. They are stored as plaintext. If anyone hypothetically got access to the database, they could read the passwords in clear text.
+As a default, passwords are not encrypted in the database. They are stored as plaintext. If anyone hypothetically got access to the database, they could read the passwords in clear text.,
+
+### How to perform an attack against the unsecure system yourself
+
+While inspecting the [next issue](./security_issues.md#issue-3---a03-injection "Issue 3 - A03 Injection"), you can clearly see that the passwords are stored in plaintext. If you manage to retrieve other user's information, you can see their passwords as well!
 
 ## Issue 3 - [A03 Injection](https://owasp.org/Top10/A03_2021-Injection/ "OWASP/Top 10: Injection")
 
@@ -58,7 +62,7 @@ Try to login with wrong credentials. The response message will tell you if the u
 
 Also check the full response object from the API when loading the `/user` page. It will return the user's access token.
 
-**How to view network traffic?** Open developer tools with F12. Open "Network" tab and browse through the traffic history. Some browsers may require you to refresh the page to see the network traffic (at least _Firefox_).
+**How to view network traffic?** Open developer tools with F12. Open "Network" tab and browse through the traffic history. **Note**: Browsers usually require you to refresh the page to see the network traffic.
 
 ## Issue 5 - [A07 Identification and Authentication Failures](https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/ "OWASP/Top 10: Identification and Authentication Failures")
 
@@ -68,11 +72,11 @@ Also check the full response object from the API when loading the `/user` page. 
 
 The session token is not invalidated when the user logs out. The token is still valid and can be used to access the system. The token is, however, invalidated/updated when the user logs in again. This still leaves a window of opportunity for an attacker to use the token to access the system.
 
-**On top of that**, the token is stored in the session storage of the browser. This means that the token is not stored in a secure manner; token-based authentication should be stored in a secure _HttpOnly_-cookie in a real-life application. However, to keep the application simple, the token is stored in the session storage.
+**On top of that**, the token is stored in the session storage of the browser. This means that the token is not stored in a secure manner; token-based authentication should be stored in a secure _HttpOnly_-cookie in a real-life application. However, to keep the application simple, the token is stored in the session storage. Proper _HttpOnly_-cookie storage would prevent the token from being accessed by client JavaScript altogether.
 
 ### How to perform an attack against the unsecure system yourself
 
-Log in as any user. Copy the value for the `token` key from your browser's session storage. Now log out by clicking "I wanna get out" button on dashboard. Open a new tab in your browser and visit the `/user` page (still logged out). Open developer tools and create an entry into the session storage for `token` with the copied value. Refresh the page. You are now logged in as the user you copied the token from.
+Log in as any user. Copy the value for the `token` key from your browser's session storage. Now log out by clicking "I wanna get out" button on dashboard. Open a new tab in your browser and visit the `/user` page (still logged out). Open developer tools and create a new entry into the session storage for `token` with the copied value. Refresh the page. You are now logged in as the user you copied the token from.
 
 **How to access session storage?** First, open developer tools with F12.
 
