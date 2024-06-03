@@ -41,7 +41,7 @@ return NextResponse.json(
 ...
 ```
 
-These messages exist on lines [21](https://github.com/joonarafael/unsecure-software/blob/1d9ec2805918650ab06ca7d7634e54bbac8e4a8d/app/api/auth/login/route.ts#L21 "View exact line on GitHub"), [38](https://github.com/joonarafael/unsecure-software/blob/1d9ec2805918650ab06ca7d7634e54bbac8e4a8d/app/api/auth/login/route.ts#L38 "View exact line on GitHub"), and [53](https://github.com/joonarafael/unsecure-software/blob/b54da635971789b819a16cc53eba913ff852f3f6/app/api/auth/login/route.ts#L53) "View exact line on GitHub").
+These messages exist on lines [21](https://github.com/joonarafael/unsecure-software/blob/1d9ec2805918650ab06ca7d7634e54bbac8e4a8d/app/api/auth/login/route.ts#L21 "View exact line on GitHub"), [38](https://github.com/joonarafael/unsecure-software/blob/1d9ec2805918650ab06ca7d7634e54bbac8e4a8d/app/api/auth/login/route.ts#L38 "View exact line on GitHub"), and [53](https://github.com/joonarafael/unsecure-software/blob/b54da635971789b819a16cc53eba913ff852f3f6/app/api/auth/login/route.ts#L53 "View exact line on GitHub").
 
 ## Fixing [Issue 5](./security_issues.md#issue-5---a07-identification-and-authentication-failures "Issue 5 - Identification and Authentication Failures")
 
