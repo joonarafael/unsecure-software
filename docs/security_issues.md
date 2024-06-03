@@ -62,6 +62,8 @@ The user data is fetched in a dangerous manner when user info is retrieved. The 
 
 While logged in, replace the user ID within the URL `?id=` search parameter to `' OR 1=1; --`. This will return the complete user table from the database. You may read the list by navigating to your browser's developer tools (open with F12) and looking at the response from the API request ("Network" tab).
 
+**How to view network traffic?** Open developer tools with F12. Open "Network" tab and browse through the traffic history. **Note**: Browsers usually require you to refresh the page to see the network traffic.
+
 ### Example
 
 1. Let's perform an SQL injection attack. When logged in, let's navigate to the user information page and replace the user ID with `' OR 1=1; --`.
@@ -71,10 +73,6 @@ While logged in, replace the user ID within the URL `?id=` search parameter to `
 2. After page load is finished, let's inspect the response from the API request. We can see that the response contains all the users in the database.
 
 <img src="./assets/injection_result.jpeg" width="500" alt="sql injection result">
-
-3. On top of that, please note that the response also contains the user's access token:
-
-<img src="./assets/unsecure_response_content.jpeg" width="500" alt="improper API responses">
 
 ## Issue 4 - [A04 Insecure Design](https://owasp.org/Top10/A04_2021-Insecure_Design/ "OWASP/Top 10: Insecure Design")
 
@@ -102,7 +100,9 @@ Also check the full response object from the API when loading the `/user` page. 
 
 <img src="./assets/nongeneric_responses.jpeg" width="500" alt="login API responses are not generic enough">
 
-**How to view network traffic?** Open developer tools with F12. Open "Network" tab and browse through the traffic history. **Note**: Browsers usually require you to refresh the page to see the network traffic.
+1. On top of that, you most likely noticed already, that the `/user` page returns the user's access token, which is not necessary by any means.
+
+<img src="./assets/unsecure_response_content.jpeg" width="500" alt="improper API responses">
 
 ## Issue 5 - [A07 Identification and Authentication Failures](https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/ "OWASP/Top 10: Identification and Authentication Failures")
 
