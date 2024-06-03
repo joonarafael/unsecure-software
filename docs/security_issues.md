@@ -96,11 +96,11 @@ Also check the full response object from the API when loading the `/user` page. 
 
 <img src="./assets/nongeneric_responses_1.jpeg" width="500" alt="login API responses reveal the existence of a user">
 
-1. We can also check if password is correct for a user that does exist.
+2. We can also check if password is correct for a user that does exist.
 
 <img src="./assets/nongeneric_responses.jpeg" width="500" alt="login API responses are not generic enough">
 
-1. On top of that, you most likely noticed already, that the `/user` page returns the user's access token, which is not necessary by any means.
+3. On top of that, you most likely noticed already, that the `/user` page returns the user's access token, which is not necessary by any means.
 
 <img src="./assets/unsecure_response_content.jpeg" width="500" alt="improper API responses">
 
