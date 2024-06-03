@@ -99,7 +99,7 @@ We'll address both the broken access control and injection simply by not fetchin
 
 Now the user data fetching is based on the user ID from the token, not from the URL parameter. This change will make the application more secure and prevent any further SQL injection attacks against the system.
 
-**OPTIONAL**: If you want, you may remove the URL search parameter logic completely from the application.
+You should also then remove the URL search parameter logic completely from the application, as it will otherwise present some runtime errors.
 
 First, update the button on the dashboard page (file [`/app/dashboard/page.tsx`](../app/dashboard/page.tsx "Open file")) to look like this:
 

@@ -14,6 +14,16 @@ User data fetching on route `/user` is not safe. While the user information fetc
 
 User ID generation is quite safe, so try not to guess a user ID. Instead, copy a user ID for yourself from the user information page (when logged in as that user). Then, log out, and log in as **any other** user. Navigate again to `/user`, and replace the search parameter for `userId` with the previous user's ID, e.g. the one you copied first. See the results.
 
+### Example
+
+1. Alice is logged in to the application.
+
+<img src="./assets/alice_logged_in.jpeg" width="500" alt="alice is logged in">
+
+1. Alice navigates to her user information page, but replaces the URL parameter to Bob's ID. Now she can see Bob's information.
+
+<img src="./assets/parameter_to_bobs_id.jpeg" width="500" alt="alice inserts bob id to URL">
+
 ## Issue 2 - [A02 Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/ "OWASP/Top 10: Cryptographic Failures")
 
 **OWASP**: "_Shifting up one position to #2, previously known as Sensitive Data Exposure, which is more of a broad symptom rather than a root cause, the focus is on failures related to cryptography (or lack thereof). Which often lead to exposure of sensitive data._"
@@ -25,6 +35,12 @@ As a default, passwords are not encrypted in the database. They are stored as pl
 ### How to perform an attack against the unsecure system yourself
 
 While inspecting the [next issue](./security_issues.md#issue-3---a03-injection "Issue 3 - A03 Injection"), you can clearly see that the passwords are stored in plaintext. If you manage to retrieve other user's information, you can see their passwords as well!
+
+### Example
+
+1. During the SQL injection, which you can read about in the [next issue](./security_issues.md#issue-3---a03-injection "Issue 3 - A03 Injection"), you can simply read the passwords in plaintext!
+
+<img src="./assets/unsecure_response_content.jpeg" width="500" alt="passwords are returned in plaintext">
 
 ## Issue 3 - [A03 Injection](https://owasp.org/Top10/A03_2021-Injection/ "OWASP/Top 10: Injection")
 
@@ -46,6 +62,16 @@ The user data is fetched in a dangerous manner when user info is retrieved. The 
 
 While logged in, replace the user ID within the URL `?id=` search parameter to `' OR 1=1; --`. This will return the complete user table from the database. You may read the list by navigating to your browser's developer tools (open with F12) and looking at the response from the API request ("Network" tab).
 
+### Example
+
+1. While logged out, we can retrieve information about the existence of any given user in the database. Let's try to login with a user that does not exist.
+
+<img src="./assets/nongeneric_responses_1.jpeg" width="500" alt="login API responses reveal the existence of a user">
+
+1. We can also check if password is correct for a user that does exist.
+
+<img src="./assets/nongeneric_responses.jpeg" width="500" alt="login API responses are not generic enough">
+
 ## Issue 4 - [A04 Insecure Design](https://owasp.org/Top10/A04_2021-Insecure_Design/ "OWASP/Top 10: Insecure Design")
 
 **OWASP**: "_Notable Common Weakness Enumerations (CWEs) include CWE-209: Generation of Error Message Containing Sensitive Information, ..., and CWE-522: Insufficiently Protected Credentials._"
@@ -61,6 +87,20 @@ Other insecure design issues are present in the API design as well, like the ret
 Try to login with wrong credentials. The response message will tell you if the user exists in the database or not. And if the user exists, it will tell you that the password is wrong.
 
 Also check the full response object from the API when loading the `/user` page. It will return the user's access token.
+
+### Example
+
+1. Let's perform an SQL injection attack. When logged in, let's navigate to the user information page and replace the user ID with `' OR 1=1; --`.
+
+<img src="./assets/sql_injection.jpeg" width="500" alt="sql injection attack in the url">
+
+2. After page load is finished, let's inspect the response from the API request. We can see that the response contains all the users in the database.
+
+<img src="./assets/injection_result.jpeg" width="500" alt="sql injection result">
+
+3. On top of that, please note that the response also contains the user's access token:
+
+<img src="./assets/unsecure_response_content.jpeg" width="500" alt="improper API responses">
 
 **How to view network traffic?** Open developer tools with F12. Open "Network" tab and browse through the traffic history. **Note**: Browsers usually require you to refresh the page to see the network traffic.
 
@@ -84,3 +124,9 @@ Log in as any user. Copy the value for the `token` key from your browser's sessi
 - If using _Firefox_, open tab "Storage" and click "Session Storage".
 
 The route is largely similar with other web browsers as well.
+
+### Example
+
+1. By copying the token, and modifying the session storage manually, we can reload the `/user` page after logging out, and we are still logged in.
+
+<img src="./assets//session_storage.jpeg" width="500" alt="tokens are not invalidated">

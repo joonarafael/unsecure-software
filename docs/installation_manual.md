@@ -38,7 +38,7 @@ To launch both the _Postgres_ database and the application, execute the followin
 docker compose up --build -d
 ```
 
-The setup and launch might take a moment, be patient.
+The setup and launch might take a moment, be patient, the `npm i` command might take literally many minutes to complete.
 
 If you encounter a problem with the command above, and you are prompted with an error message like "**Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock**", you should read [this thread post](https://www.digitalocean.com/community/questions/how-to-fix-docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket "DigitalOcean - How to fix docker: Got permission denied while trying to connect to the Docker daemon socket").
 
@@ -70,8 +70,10 @@ docker compose down
 
 ### Rebuilding The Application
 
-Make sure to rebuild the image after making changes to the source code for the fixed application. Stop the running container, delete the old image and execute again the same Docker command in the terminal:
+Make sure to completely rebuild the image after making changes to the source code for the fixed application. **Stop the running container**, **delete the old image** and execute again the same Docker command in the terminal:
 
 ```
 docker compose up --build -d
 ```
+
+If you can't see the changes, you're still running the old image. Stop the container, delete the image, and additionally delete Docker cache with `docker builder prune` to ensure a fresh build. Build the image again with command above.
