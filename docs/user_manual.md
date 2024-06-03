@@ -19,7 +19,7 @@ Login page is where you can log in to the application. You can use the following
 ```
 alice:redqueen
 bob:squarepants
-patrick:star
+patrick:asteroid
 ```
 
 ## Dashboard
