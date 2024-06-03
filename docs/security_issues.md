@@ -64,13 +64,17 @@ While logged in, replace the user ID within the URL `?id=` search parameter to `
 
 ### Example
 
-1. While logged out, we can retrieve information about the existence of any given user in the database. Let's try to login with a user that does not exist.
+1. Let's perform an SQL injection attack. When logged in, let's navigate to the user information page and replace the user ID with `' OR 1=1; --`.
 
-<img src="./assets/nongeneric_responses_1.jpeg" width="500" alt="login API responses reveal the existence of a user">
+<img src="./assets/sql_injection.jpeg" width="500" alt="sql injection attack in the url">
 
-1. We can also check if password is correct for a user that does exist.
+2. After page load is finished, let's inspect the response from the API request. We can see that the response contains all the users in the database.
 
-<img src="./assets/nongeneric_responses.jpeg" width="500" alt="login API responses are not generic enough">
+<img src="./assets/injection_result.jpeg" width="500" alt="sql injection result">
+
+3. On top of that, please note that the response also contains the user's access token:
+
+<img src="./assets/unsecure_response_content.jpeg" width="500" alt="improper API responses">
 
 ## Issue 4 - [A04 Insecure Design](https://owasp.org/Top10/A04_2021-Insecure_Design/ "OWASP/Top 10: Insecure Design")
 
@@ -90,17 +94,13 @@ Also check the full response object from the API when loading the `/user` page. 
 
 ### Example
 
-1. Let's perform an SQL injection attack. When logged in, let's navigate to the user information page and replace the user ID with `' OR 1=1; --`.
+1. While logged out, we can retrieve information about the existence of any given user in the database. Let's try to login with a user that does not exist.
 
-<img src="./assets/sql_injection.jpeg" width="500" alt="sql injection attack in the url">
+<img src="./assets/nongeneric_responses_1.jpeg" width="500" alt="login API responses reveal the existence of a user">
 
-2. After page load is finished, let's inspect the response from the API request. We can see that the response contains all the users in the database.
+1. We can also check if password is correct for a user that does exist.
 
-<img src="./assets/injection_result.jpeg" width="500" alt="sql injection result">
-
-3. On top of that, please note that the response also contains the user's access token:
-
-<img src="./assets/unsecure_response_content.jpeg" width="500" alt="improper API responses">
+<img src="./assets/nongeneric_responses.jpeg" width="500" alt="login API responses are not generic enough">
 
 **How to view network traffic?** Open developer tools with F12. Open "Network" tab and browse through the traffic history. **Note**: Browsers usually require you to refresh the page to see the network traffic.
 
