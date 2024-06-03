@@ -8,4 +8,4 @@ RUN npm i
 
 COPY . .
 
-CMD npx prisma generate;npx prisma db push; npm run dev;
+CMD npx prisma generate;npx prisma db push;npm run dev;

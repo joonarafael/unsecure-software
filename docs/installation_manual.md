@@ -46,6 +46,8 @@ Connect to the application by opening your web browser and navigating to [localh
 
 The port number is listed below the `PORTS` column. The default port number is `3000`, but it will be automatically assigned to a free port on your machine if port `3000` is already in use. For example, one time on my machine the port assignment looked like this: `0.0.0.0:32769->3000/tcp, :::32769->3000/tcp`. I reached the application then from [localhost:32769](http://localhost:32769 "Your localhost:32769").
 
+Sorry for not optimizing the Docker configuration properly (e.g. with a `.dockerignore` file), the image size is quite large. The image size could be reduced by excluding unnecessary files and directories from the image build process.
+
 ### Shutting The Application Down
 
 To shut down the application and the database, execute the following command in the terminal:
