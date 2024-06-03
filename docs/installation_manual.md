@@ -18,6 +18,8 @@ To make life easier, let's just run the server and the database as isolated cont
 
 If you do not yet have Docker installed, follow the installation instructions regardless of the OS of your choice, found on [this site](https://www.docker.com/get-started/ "Docker - Get Started"). If you get stuck, or need more assistance with the installation procedure, please consult the extensive Docker Documentation behind [this link](https://docs.docker.com/desktop/ "Overview of Docker Desktop").
 
+Linux users can install Docker using the _snap_ package manager by executing `sudo snap install docker` in the terminal.
+
 The Internet and YouTube are also full of short informative installation guides and videos to help you get going.
 
 **NOTE!** All commands provided here later will run in your terminal regardless of the OS, if you've got the _Docker CLI client_ installed on your machine. The CLI client will install automatically when downloading and installing the _Docker Desktop_ bundle. However, only the CLI client is required to proceed.
@@ -37,6 +39,8 @@ docker compose up --build -d
 ```
 
 The setup and launch might take a moment, be patient.
+
+If you encounter a problem with the command above, and you are prompted with an error message like "**Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock**", you should read [this thread post](https://www.digitalocean.com/community/questions/how-to-fix-docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket "DigitalOcean - How to fix docker: Got permission denied while trying to connect to the Docker daemon socket").
 
 Connect to the application by opening your web browser and navigating to [localhost:3000](http://localhost:3000 "Your localhost:3000"), or whatever the correct port is for your `application-container` Docker container (check designated port numbers with `docker ps`).
 
