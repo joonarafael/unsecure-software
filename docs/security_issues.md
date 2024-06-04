@@ -100,7 +100,7 @@ Also check the full response object from the API when loading the `/user` page. 
 
 <img src="./assets/nongeneric_responses.jpeg" width="500" alt="login API responses are not generic enough">
 
-3. On top of that, you most likely noticed already, that the `/user` page returns the user's access token, which is not necessary by any means.
+3. On top of that, you most likely noticed already during the [SQL injection segment](./security_issues.md#issue-3---a03-injection "Issue 3 - A03 Injection"), that the `/getuser` API route returns the user's access token, which is not necessary by any means.
 
 <img src="./assets/unsecure_response_content.jpeg" width="500" alt="improper API responses">
 
