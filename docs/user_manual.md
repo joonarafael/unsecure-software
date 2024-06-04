@@ -8,7 +8,7 @@ Index page is the landing page for the application. It contains a brief introduc
 
 ## DB Control Panel
 
-This is not really a part of the application. As I did not build real registration functionality, I've included a button to populate the database with some default users. This is behind the button "_Let's do it_" on the index page or route `/populate`.
+This is not really a part of the application. As I did not build real registration functionality, I've included controls to populate and manage the database. This is behind the button "_Let's do it_" on the index page or route `/populate`.
 
 **Do not consider this as a part of the application. It is only there to help you populate the database with some default users** (and later switch to hashed passwords). **This is not a part of the intended use of the application.**
 
