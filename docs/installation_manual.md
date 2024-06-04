@@ -76,4 +76,4 @@ Make sure to completely rebuild the image after making changes to the source cod
 docker compose up --build -d
 ```
 
-If you can't see the changes, you're still running the old image. Stop the container, delete the image, and additionally delete Docker cache with `docker builder prune` to ensure a fresh build. Build the image again with command above.
+If you can't see the changes, you're still running the old image. Stop the container, delete the image, and maybe even additionally delete Docker cache with `docker builder prune` to ensure a fresh build. Build the image again with command above.
