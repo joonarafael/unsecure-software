@@ -12,7 +12,7 @@ User data fetching on route `/user` is not safe. While the user information fetc
 
 ### How to perform an attack against the unsecure system yourself
 
-User ID generation is quite safe, so try not to guess a user ID. Instead, copy a user ID for yourself from the user information page (when logged in as that user). Then, log out, and log in as **any other** user. Navigate again to `/user`, and replace the search parameter for `userId` with the previous user's ID, e.g. the one you copied first. See the results.
+User ID generation is quite safe, so try not to guess a user ID. Instead, copy a user ID for yourself from the user information page (when logged in as that user). Then, log out, and log in as **any other** user. Navigate again to `/user`, and replace the search parameter for `id` with the previous user's ID, e.g. the one you copied first. See the results.
 
 ### Example
 
@@ -56,7 +56,7 @@ _- Hostile data is directly used or concatenated. The SQL or command contains th
 
 ### How this is present in my application
 
-The user data is fetched in a dangerous manner when user info is retrieved. The user ID for database query is fetched from the URL search parameter (see [first issue](./security_issues.md#how-this-is-present-in-my-application "Issue 1 - How this is present in my application")), and directly used in the SQL command. While the library I've used in my application does not allow _prepared statements with multiple commands_, the data is still left exposed and vulnerable to an SQL injection.
+The user data is fetched in a dangerous manner when user info is retrieved. The user ID for database query is fetched from the URL search parameter (see [first issue](./security_issues.md#how-this-is-present-in-my-application "Issue 1 - How this is present in my application")), and directly used in the SQL command. While the library I've used in my application does not allow _prepared statements with multiple commands_, the data is still left exposed and vulnerable for an SQL injection.
 
 ### How to perform an attack against the unsecure system yourself
 
