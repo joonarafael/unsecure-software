@@ -12,7 +12,7 @@ User data fetching on route `/user` is not safe. While the user information fetc
 
 ### How to perform an attack against the unsecure system yourself
 
-User ID generation is quite safe, so try not to guess a user ID. Instead, copy a user ID for yourself from the user information page (when logged in as that user). Then, log out, and log in as **any other** user. Navigate again to `/user`, and replace the search parameter for `id` with the previous user's ID, e.g. the one you copied first. See the results.
+User IDs are automatically generated UUIDs, so try not to guess a user ID. Instead, copy a user ID for yourself from the user information page (when logged in as that user). Then, log out, and log in as **any other** user. Navigate again to `/user`, and replace the search parameter for `id` with the previous user's ID, e.g. the one you copied first. See the results.
 
 ### Example
 
