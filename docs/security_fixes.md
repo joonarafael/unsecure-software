@@ -207,4 +207,4 @@ You may also want to change the client UI to not display the empty password (opt
 
 ## Congrats, you just made the application substantially more secure! 🎉
 
-Now rebuild the Docker image and run the application again. You can try again all the described attacks in the [Security Issues document](./security_issues.md "Security Issues") and learn that none work anymore!
+Now rebuild the Docker image and run the application again (read instructions found from [this document](./installation_manual.md)). You can try again all the described attacks in the [Security Issues document](./security_issues.md "Security Issues") and learn that none work anymore!
