@@ -30,7 +30,7 @@ User ID generation is quite safe, so try not to guess a user ID. Instead, copy a
 
 ### How this is present in my application
 
-As a default, passwords are not encrypted in the database. They are stored as plaintext. If anyone hypothetically got access to the database, they could read the passwords in clear text.,
+As a default, passwords are not encrypted in the database. They are stored as plaintext. If anyone hypothetically got access to the database, they could read the passwords in clear text.
 
 ### How to perform an attack against the unsecure system yourself
 
