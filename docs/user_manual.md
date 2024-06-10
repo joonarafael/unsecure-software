@@ -12,6 +12,8 @@ This is not really a part of the application. As I did not build real registrati
 
 **Do not consider this as a part of the application. It is only there to help you populate the database with some default users** (and later switch to hashed passwords). **This is not a part of the intended use of the application.**
 
+Start by populating the database with the plaintext passwords. Try using the application, and perform the attacks described [here](./security_issues.md). Make sure to keep the database entries (plaintext/hashed) in sync with the authentication logic in the application. Login won't work if the passwords are in the wrong format.
+
 ## Login
 
 Login page is where you can log in to the application. You can use the following credentials to log in:

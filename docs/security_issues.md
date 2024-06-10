@@ -12,7 +12,7 @@ User data fetching on route `/user` is not safe. While the user information fetc
 
 ### How to perform an attack against the unsecure system yourself
 
-User IDs are automatically generated UUIDs, so try not to guess a user ID. Instead, copy a user ID for yourself from the user information page (when logged in as that user). Then, log out, and log in as **any other** user. Navigate again to `/user`, and replace the search parameter for `id` with the previous user's ID, e.g. the one you copied first. See the results.
+User IDs are automatically generated UUIDs, so try not to guess a user ID. Instead, copy a user ID for yourself from the user information page (when logged in as that user). Then, log out, and log in as any **other** user. Navigate again to `/user`, and replace the search parameter for `id` with the previous user's ID, e.g. the one you copied first. See the results.
 
 ### Example
 
@@ -34,7 +34,7 @@ As a default, passwords are not encrypted in the database. They are stored as pl
 
 ### How to perform an attack against the unsecure system yourself
 
-While inspecting the [next issue](./security_issues.md#issue-3---a03-injection "Issue 3 - A03 Injection"), you can clearly see that the passwords are stored in plaintext. If you manage to retrieve other user's information, you can see their passwords as well!
+While inspecting the [next issue](./security_issues.md#issue-3---a03-injection "Issue 3 - A03 Injection"), you can clearly see that the passwords are stored in plaintext. If you manage to retrieve other user's information, you can see their password as well!
 
 ### Example
 
@@ -56,21 +56,21 @@ _- Hostile data is directly used or concatenated. The SQL or command contains th
 
 ### How this is present in my application
 
-The user data is fetched in a dangerous manner when user info is retrieved. The user ID for database query is fetched from the URL search parameter (see [first issue](./security_issues.md#how-this-is-present-in-my-application "Issue 1 - How this is present in my application")), and directly used in the SQL command. While the library I've used in my application does not allow _prepared statements with multiple commands_, the data is still left exposed and vulnerable for an SQL injection.
+The user data is fetched in a dangerous manner when user info is retrieved. The user ID for database query is fetched from the URL search parameter (see [first issue](./security_issues.md#how-this-is-present-in-my-application "Issue 1 - How this is present in my application")), and directly used in the SQL query. While the library I've used in my application does not allow _prepared statements with multiple commands_, the data is still left exposed and vulnerable for an SQL injection.
 
 ### How to perform an attack against the unsecure system yourself
 
 While logged in, replace the user ID within the URL `?id=` search parameter to `' OR 1=1; --`. This will return the complete user table from the database. You may read the list by navigating to your browser's developer tools (open with F12) and looking at the response from the API request ("Network" tab).
 
-**How to view network traffic?** Open developer tools with F12. Open "Network" tab and browse through the traffic history. **Note**: Browsers usually require you to refresh the page to see the network traffic.
+**How to view network traffic?** Open developer tools with F12. Open "Network" tab and browse through the traffic history. **Note**! Browsers usually require you to refresh the page to see the network traffic.
 
 ### Example
 
-1. Let's perform an SQL injection attack. When logged in, let's navigate to the user information page and replace the user ID with `' OR 1=1; --`.
+1. Let's perform an SQL injection attack. When we're logged in, we navigate to the user information page and replace the user ID with `' OR 1=1; --`.
 
 <img src="./assets/sql_injection.jpeg" width="500" alt="sql injection attack in the url">
 
-2. After page load is finished, let's inspect the response from the API request. We can see that the response contains all the users in the database.
+1. After page load is finished, we inspect the response from the API request. We can see that the response contains all the users in the database.
 
 <img src="./assets/injection_result.jpeg" width="500" alt="sql injection result">
 
@@ -80,9 +80,9 @@ While logged in, replace the user ID within the URL `?id=` search parameter to `
 
 ### How this is present in my application
 
-Response messages from the server during login are not generic. They give away information about the user's existence (or the lack thereof) in the database.
+Response messages from the server during login authentication are not generic. They give away information about the user's existence (or the lack thereof) in the database.
 
-Other insecure design issues are present in the API design as well, like the returning of passwords and access tokens, which should not be returned to user when inspecting their account details (page `/user`).
+Other insecure design flaws are present in the API design as well, like the returning of passwords and access tokens, which should not be returned to user when inspecting their account details (page `/user`).
 
 ### How to perform an attack against the unsecure system yourself
 
@@ -112,13 +112,15 @@ Also check the full response object from the API when loading the `/user` page. 
 
 The session token is not invalidated when the user logs out. The token is still valid and can be used to access the system. The token is, however, invalidated/updated when the user logs in again. This still leaves a window of opportunity for an attacker to use the token to access the system.
 
-**On top of that**, the token is stored in the session storage of the browser. This means that the token is not stored in a secure manner; token-based authentication should be stored in a secure _HttpOnly_-cookie in a real-life application. However, to keep the application simple, the token is stored in the session storage. Proper _HttpOnly_-cookie storage would prevent the token from being accessed by client JavaScript altogether.
+**On top of that**, the token is stored in the session storage of the browser. This means that the token is not stored in a secure manner; token-based authentication should be stored in a secure _HttpOnly_-cookie in a real-life application with proper _Secure_ & _SameSite_ flags. However, to keep the application simple, the token is stored in the session storage. In addition, only one session can be active at a time, which is would not work in a real-life application.
 
 ### How to perform an attack against the unsecure system yourself
 
 Log in as any user. Copy the value for the `token` key from your browser's session storage. Now log out by clicking "I wanna get out" button on dashboard. Open a new tab in your browser and visit the `/user` page (still logged out). Open developer tools and create a new entry into the session storage for `token` with the copied value. Refresh the page. You are now logged in as the user you copied the token from.
 
-**How to access session storage?** First, open developer tools with F12.
+**How to access session storage?**
+
+First, open developer tools with F12.
 
 - If using _Chrome_ or _MS Edge_, open tab "Application" and below subheader "Storage", click "Session storage".
 - If using _Firefox_, open tab "Storage" and click "Session Storage".

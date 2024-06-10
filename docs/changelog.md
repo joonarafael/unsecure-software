@@ -2,6 +2,8 @@
 
 ## 2024
 
+- 1.0.0; **Jun 10**: docs received even more polishing and clarifications
+
 - 1.0.0; **Jun 3**: some final clarifications and documentation updates
 
 - 1.0.0; **May 27**: documentation is now finished for Docker compose

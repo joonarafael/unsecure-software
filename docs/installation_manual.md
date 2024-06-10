@@ -18,8 +18,6 @@ To make life easier, let's just run the server and the database as isolated cont
 
 If you do not yet have Docker installed, follow the installation instructions regardless of the OS of your choice, found on [this site](https://www.docker.com/get-started/ "Docker - Get Started"). If you get stuck, or need more assistance with the installation procedure, please consult the extensive Docker Documentation behind [this link](https://docs.docker.com/desktop/ "Overview of Docker Desktop").
 
-Linux users can install Docker using the _snap_ package manager by executing `sudo snap install docker` in the terminal.
-
 The Internet and YouTube are also full of short informative installation guides and videos to help you get going.
 
 **NOTE!** All commands provided here later will run in your terminal regardless of the OS, if you've got the _Docker CLI client_ installed on your machine. The CLI client will install automatically when downloading and installing the _Docker Desktop_ bundle. However, only the CLI client is required to proceed.
@@ -28,9 +26,7 @@ The Internet and YouTube are also full of short informative installation guides 
 
 Open a new terminal instance in the newly downloaded repository **or** otherwise navigate into it.
 
-Bash terminal users (like Linux and MacOS) users can navigate with `cd unsecure-software` natively within the terminal.
-
-### Launch The Database and Application With Docker Compose
+### Launching The Database and Application With Docker Compose
 
 To launch both the _Postgres_ database and the application, execute the following command in the terminal:
 
@@ -38,11 +34,17 @@ To launch both the _Postgres_ database and the application, execute the followin
 docker compose up --build -d
 ```
 
+Please make sure you execute the command in the root directory of the repository, where the `docker-compose.yml` file is located!
+
 The setup and launch might take a moment, be patient, the `npm i` command might take literally many minutes to complete.
 
-If you encounter a problem with the command above, and you are prompted with an error message like "**Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock**", you should read [this thread post](https://www.digitalocean.com/community/questions/how-to-fix-docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket "DigitalOcean - How to fix docker: Got permission denied while trying to connect to the Docker daemon socket").
+If you encounter a problem with the command above, and you are prompted with an error message like "**Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock**", try running `systemctl start docker`. It could also be that the fix you need is specified in [this thread post](https://www.digitalocean.com/community/questions/how-to-fix-docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket "DigitalOcean - How to fix docker: Got permission denied while trying to connect to the Docker daemon socket").
 
-Connect to the application by opening your web browser and navigating to [localhost:3000](http://localhost:3000 "Your localhost:3000"), or whatever the correct port is for your `application-container` Docker container (check designated port numbers with `docker ps`).
+Some Linux users may also find they've installed conflicting Docker Compose versions (for example one through `snap` and one through the `curl` installation). In such case I'd suggest removing the `snap` version with `sudo snap remove docker`.
+
+### Accessing The Application
+
+Connect to the application by opening your web browser of choice and navigating to [localhost:3000](http://localhost:3000 "Your localhost:3000"), or whatever the correct port is for your `application-container` Docker container (check designated port numbers with `docker ps`).
 
 The port number is listed below the `PORTS` column. The default port number is `3000`, but it will be automatically assigned to a free port on your machine if port `3000` is already in use. For example, one time on my machine the port assignment looked like this: `0.0.0.0:32769->3000/tcp, :::32769->3000/tcp`. I reached the application then from [localhost:32769](http://localhost:32769 "Your localhost:32769").
 
@@ -56,7 +58,7 @@ To shut down the application and the database, execute the following command in 
 docker compose down
 ```
 
-### Some Useful Docker Tips
+### Some Useful Docker Commands
 
 - Check all your Docker containers with `docker ps -a` and all images with `docker images`.
 
@@ -70,10 +72,10 @@ docker compose down
 
 ### Rebuilding The Application
 
-Make sure to completely rebuild the image after making changes to the source code for the fixed application. **Stop the running container**, **delete the old image** and execute again the same Docker command in the terminal:
+Make sure to completely rebuild the image after making changes to the source code for the fixed application. **Stop the running containers**, **remove the containers**, **delete the old images**, and **execute again the same Docker command in the terminal**:
 
 ```
 docker compose up --build -d
 ```
 
-If you can't see the changes, you're still running the old image. Stop the container, delete the image, and maybe even additionally delete Docker cache with `docker builder prune` to ensure a fresh build. Build the image again with command above.
+If you can't see the changes, you're still running the old image. Perform the actions described above again, and maybe even additionally delete Docker cache with `docker builder prune` to ensure a fresh build. Build the image again with command above.

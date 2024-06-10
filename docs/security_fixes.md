@@ -2,11 +2,13 @@
 
 This document will provide you with the necessary steps to fix the security issues present in the application. The fixes are based on the issues described in [this document](./security_issues.md "Security Issues").
 
-**NOTE**: If you are running the application locally as a _Docker_ container, you will need to build the image again after making these changes. The application will not automatically update itself when modifying the source code. See the [Installation Manual](https://github.com/joonarafael/unsecure-software/blob/main/docs/installation_manual.md#create-the-docker-image-for-the-app "Installation Manual") for more information on how to build the Docker image.
+**NOTE**: If you are running the application locally as a _Docker_ container, you will need to build the image again after making these changes. The application will not automatically update itself when modifying the source code. See the [Installation Manual](./installation_manual.md#rebuilding-the-application "Installation Manual - Rebuilding The Application") for more information on how to rebuild the Docker image.
+
+If you do not feel like copying, pasting, commenting, and uncommenting code all over the place, you can also just download the **_FIXED VERSION_** of the application from this [GitHub repository](https://github.com/joonarafael/secure-software "Secure Software"). The repository contains the fixed version of the application, and you can run it locally straight out of the box **with the same instructions as the original application**.
 
 ## Fixing [Issue 2](./security_issues.md#issue-2---a02-cryptographic-failures "Issue 2 - Cryptographic Failures")
 
-Replace plaintext passwords with hashed passwords in the database through the database control panel (behind button "_Let's do it_" on index page or route `/populate`). Login credentials remain the same, they are just stored in a more secure manner.
+Replace plaintext passwords with hashed passwords in the database through the database control panel (behind button "_Let's do it_" on index page or route `/populate`). **Login credentials remain the same**, they are just stored in a more secure manner.
 
 Then, change the authentication logic within the _login API endpoint_ (file [`/app/api/auth/login/route.ts`](../app/api/auth/login/route.ts "Open file")) to look like this:
 
@@ -176,7 +178,7 @@ Let's not return passwords and access tokens in the API responses while fetching
 ...
 ```
 
-You may also want to change the client UI to not display the empty password (optional, purely a cosmetic touch). Change the user page (file [`/app/user/page.tsx`](../app/user/page.tsx "Open file")) to look like this:
+You should also change the client UI to not display the empty password (cosmetic touch). Change the user page (file [`/app/user/page.tsx`](../app/user/page.tsx "Open file")) to look like this:
 
 ```typescript
 ...
@@ -207,4 +209,4 @@ You may also want to change the client UI to not display the empty password (opt
 
 ## Congrats, you just made the application substantially more secure! 🎉
 
-Now rebuild the Docker image and run the application again (read instructions found from [this document](./installation_manual.md)). You can try again all the described attacks in the [Security Issues document](./security_issues.md "Security Issues") and learn that none work anymore!
+Now rebuild the Docker image and run the application again (read instructions found from [this document](./installation_manual.md#rebuilding-the-application)). You can try again all the described attacks in the [Security Issues document](./security_issues.md "Security Issues") and learn that none work anymore!
