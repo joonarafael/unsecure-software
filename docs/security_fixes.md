@@ -89,10 +89,10 @@ We'll address both the broken access control and injection simply by not fetchin
 46
 47			if (verifiedUser) {
 48				const user = await db.user.findFirst({
-49                  where: {
-50                      id: verifiedUser.id,
-51                  },
-52              });
+49                                  where: {
+50                                      id: verifiedUser.id,
+51                                  },
+52                              });
 53
 54				if (user) {
 55					return NextResponse.json(
@@ -162,16 +162,16 @@ Let's not return passwords and access tokens in the API responses while fetching
 46
 47			if (verifiedUser) {
 48				const user = await db.user.findFirst({
-49                  where: {
-50                      id: verifiedUser.id,
-51                  },
-52                  select: {
-53                      id: true,
-54                      username: true,
-55                      createdAt: true,
-56                      updatedAt: true,
-57                  }
-58              });
+49                                  where: {
+50                                      id: verifiedUser.id,
+51                                  },
+52                                  select: {
+53                                      id: true,
+54                                      username: true,
+55                                      createdAt: true,
+56                                      updatedAt: true,
+57                                  }
+58                              });
 59
 60				if (user) {
 61					return NextResponse.json(
@@ -182,28 +182,28 @@ You should also change the client UI to not display the empty password (cosmetic
 
 ```typescript
 ...
-68				<p className="font-light">
-69					<em>here are your account details</em>
-70				</p>
-71				<h1 className="text-3xl font-extrabold">{user.username}</h1>
-72				<div className="flex gap-2 p-4 flex-col border rounded-lg">
-73					<div className="flex w-full justify-between flex-row">
-74						<p className="text-neutral-500">id</p>
-75						<p>{user.id}</p>
-76					</div>
-77					<div className="flex w-full justify-between flex-row">
-78						<p className="text-neutral-500">username</p>
-79						<p>{user.username}</p>
-80					</div>
-81					<div className="flex w-full justify-between flex-row">
-82						<p className="text-neutral-500">created at</p>
-83						<p>{JSON.stringify(user.createdAt)}</p>
-84					</div>
-85					<div className="flex w-full justify-between flex-row">
-86						<p className="text-neutral-500">updated at</p>
-87						<p>{JSON.stringify(user.updatedAt)}</p>
-88					</div>
-89				</div>
+61				<p className="font-light">
+62					<em>here are your account details</em>
+63				</p>
+64				<h1 className="text-3xl font-extrabold">{user.username}</h1>
+65				<div className="flex gap-2 p-4 flex-col border rounded-lg">
+66					<div className="flex w-full justify-between flex-row">
+67						<p className="text-neutral-500">id</p>
+68						<p>{user.id}</p>
+69					</div>
+70					<div className="flex w-full justify-between flex-row">
+71						<p className="text-neutral-500">username</p>
+72						<p>{user.username}</p>
+73					</div>
+74					<div className="flex w-full justify-between flex-row">
+75						<p className="text-neutral-500">created at</p>
+76						<p>{JSON.stringify(user.createdAt)}</p>
+77					</div>
+78					<div className="flex w-full justify-between flex-row">
+79						<p className="text-neutral-500">updated at</p>
+80						<p>{JSON.stringify(user.updatedAt)}</p>
+81					</div>
+82				</div>
 ...
 ```
 
