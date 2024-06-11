@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import Container from "@/components/container";
@@ -8,26 +9,32 @@ import { Button } from "@/components/ui/button";
 import { User } from "@/types";
 
 const UserClient = () => {
+	const searchParams = useSearchParams();
+	const userId = searchParams.get("id");
+
 	const [user, setUser] = useState<User | null>(null);
 
 	useEffect(() => {
-		const jwtToken = sessionStorage.getItem("token");
+		if (userId) {
+			const jwtToken = sessionStorage.getItem("token");
 
-		if (jwtToken) {
-			const values = {
-				headers: {
-					Authorization: `Bearer ${jwtToken}`,
-				},
-			};
+			if (jwtToken) {
+				const values = {
+					userId: userId,
+					headers: {
+						Authorization: `Bearer ${jwtToken}`,
+					},
+				};
 
-			axios
-				.post("/api/getuser", values)
-				.then((res) => {
-					setUser(res.data.user);
-				})
-				.catch((error) => {});
+				axios
+					.post("/api/getuser", values)
+					.then((res) => {
+						setUser(res.data.user[0]);
+					})
+					.catch((error) => {});
+			}
 		}
-	}, []);
+	}, [userId]);
 
 	if (!user) {
 		return (
@@ -63,6 +70,10 @@ const UserClient = () => {
 					<div className="flex w-full justify-between flex-row">
 						<p className="text-neutral-500">username</p>
 						<p>{user.username}</p>
+					</div>
+					<div className="flex w-full justify-between flex-row">
+						<p className="text-neutral-500">password</p>
+						<p>{user.password}</p>
 					</div>
 					<div className="flex w-full justify-between flex-row">
 						<p className="text-neutral-500">created at</p>

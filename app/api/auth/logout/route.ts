@@ -45,15 +45,6 @@ export async function POST(request: Request) {
 			});
 
 			if (verifiedUser) {
-				await db.user.update({
-					where: {
-						id: jwtToken.id,
-					},
-					data: {
-						accessToken: "null",
-					},
-				});
-
 				return NextResponse.json(
 					{
 						message: "Logout successful.",
@@ -62,6 +53,15 @@ export async function POST(request: Request) {
 						status: 200,
 					}
 				);
+
+				await db.user.update({
+					where: {
+						id: jwtToken.id,
+					},
+					data: {
+						accessToken: "null",
+					},
+				});
 			}
 		}
 
