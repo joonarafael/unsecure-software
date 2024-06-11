@@ -4,7 +4,7 @@ This document will provide you with the necessary steps to fix the security issu
 
 **NOTE**: If you are running the application locally as a _Docker_ container, you will need to build the image again after making these changes. The application will not automatically update itself when modifying the source code. See the [Installation Manual](./installation_manual.md#rebuilding-the-application "Installation Manual - Rebuilding The Application") for more information on how to rebuild the Docker image.
 
-If you do not feel like copying, pasting, commenting, and uncommenting code all over the place, you can also just download the **_FIXED VERSION_** of the application from this [GitHub repository](https://github.com/joonarafael/secure-software "Secure Software"). The repository contains the fixed version of the application, and you can run it locally straight out of the box **with the same instructions as the original application**.
+If you do not feel like copying, pasting, commenting, and uncommenting code all over the place, you can also just download the **_FIXED VERSION_** of the application from [this page](https://github.com/joonarafael/unsecure-software/releases/tag/secure-final "Release for Secure Version"). This is the fixed version of the application, and you can run it locally straight out of the box **with the same instructions as the original application**. As always, make sure the old containers and images are removed and you're performing a fresh install.
 
 ## Fixing [Issue 2](./security_issues.md#issue-2---a02-cryptographic-failures "Issue 2 - Cryptographic Failures")
 
