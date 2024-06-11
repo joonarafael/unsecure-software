@@ -45,9 +45,17 @@ export async function POST(request: Request) {
 			});
 
 			if (verifiedUser) {
-				const user = await db.$queryRawUnsafe(
-					`SELECT * FROM "User" WHERE id='${userId}';`
-				);
+				const user = await db.user.findFirst({
+					where: {
+						id: verifiedUser.id,
+					},
+					select: {
+						id: true,
+						username: true,
+						createdAt: true,
+						updatedAt: true,
+					}
+				});
 
 				if (user) {
 					return NextResponse.json(

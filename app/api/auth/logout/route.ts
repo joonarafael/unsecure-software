@@ -1,9 +1,9 @@
 "use server";
 
-import jsonwebtoken from 'jsonwebtoken';
-import { NextResponse } from 'next/server';
+import jsonwebtoken from "jsonwebtoken";
+import { NextResponse } from "next/server";
 
-import { db } from '@/lib/db';
+import { db } from "@/lib/db";
 
 const { verify } = jsonwebtoken;
 
@@ -45,15 +45,6 @@ export async function POST(request: Request) {
 			});
 
 			if (verifiedUser) {
-				return NextResponse.json(
-					{
-						message: "Logout successful.",
-					},
-					{
-						status: 200,
-					}
-				);
-
 				await db.user.update({
 					where: {
 						id: jwtToken.id,
@@ -62,6 +53,15 @@ export async function POST(request: Request) {
 						accessToken: "null",
 					},
 				});
+
+				return NextResponse.json(
+					{
+						message: "Logout successful.",
+					},
+					{
+						status: 200,
+					}
+				);
 			}
 		}
 

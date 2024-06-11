@@ -1,11 +1,11 @@
 "use client";
 
-import axios from "axios";
-import { useEffect, useState } from "react";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
-import Container from "@/components/container";
-import { Button } from "@/components/ui/button";
-import { User } from "@/types";
+import Container from '@/components/container';
+import { Button } from '@/components/ui/button';
+import { User } from '@/types';
 
 const DashboardClient = () => {
 	const [user, setUser] = useState<User | null>(null);
@@ -92,7 +92,7 @@ const DashboardClient = () => {
 				</div>
 				<div className="flex gap-2 p-4 flex-col border rounded-lg">
 					<h3 className="text-lg font-bold">See your account information</h3>
-					<a href={`/user?id=${user?.id}`} className="flex w-full">
+					<a href="/user" className="flex w-full">
 						<Button className="flex w-full" size="lg">
 							I&apos;m interested
 						</Button>
