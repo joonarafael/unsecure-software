@@ -34,13 +34,13 @@ To launch both the _Postgres_ database and the application, execute the followin
 docker compose up --build -d
 ```
 
-Please make sure you execute the command in the root directory of the repository, where the `docker-compose.yml` file is located!
+**Please make sure you execute the command in the root directory of the repository**, where the `docker-compose.yml` file is located.
 
-The setup and launch might take a moment, be patient, the `npm i` command might take literally many minutes to complete.
+The setup and launch might take a while, be patient, especially the `npm i` command might take literally minutes to complete.
 
 If you encounter a problem with the command above, and you are prompted with an error message like "**Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock**", try running `systemctl start docker`. It could also be that the fix you need is specified in [this thread post](https://www.digitalocean.com/community/questions/how-to-fix-docker-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-socket "DigitalOcean - How to fix docker: Got permission denied while trying to connect to the Docker daemon socket").
 
-Some Linux users may also find they've installed conflicting Docker Compose versions (for example one through `snap` and one through the `curl` installation). In such case I'd suggest removing the `snap` version with `sudo snap remove docker`.
+Some Linux users may also find they've installed **conflicting Docker Compose versions** (for example one through `snap` and one through the `curl` installation). In such case I'd suggest removing the `snap` version with `sudo snap remove docker`.
 
 ### Accessing The Application
 
@@ -72,7 +72,7 @@ docker compose down
 
 ### Rebuilding The Application
 
-Make sure to completely rebuild the image after making changes to the source code for the fixed application. **Stop the running containers**, **remove the containers**, **delete the old images**, and **execute again the same Docker command in the terminal**:
+Make sure to completely rebuild the image after making changes to the source code for the fixed application. **Stop the running containers**, **remove the containers**, **delete the old application image**, and **execute again the same Docker command in the terminal**:
 
 ```
 docker compose up --build -d
