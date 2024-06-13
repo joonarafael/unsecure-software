@@ -4,7 +4,9 @@ This document will provide you with the necessary steps to fix the security issu
 
 **NOTE**: If you are running the application locally as a _Docker_ container, you will need to build the image again after making these changes. The application will not automatically update itself when modifying the source code. See the [Installation Manual](./installation_manual.md#rebuilding-the-application "Installation Manual - Rebuilding The Application") for more information on how to rebuild the Docker image.
 
-If you do not feel like copying, pasting, commenting, and uncommenting code all over the place, you can also just download the **_FIXED VERSION_** of the application from [this page](https://github.com/joonarafael/unsecure-software/releases/tag/secure-final "Release for Secure Version"). This is the fixed version of the application, and you can run it locally straight out of the box **with the same instructions as the original application**. As always, make sure the old containers and images are removed and you're performing a fresh install.
+## Pre-Fixed Version
+
+If you do not feel like copying, pasting, commenting, and uncommenting code all over the place, you can also just download the **_PRE-FIXED VERSION_** of the application from [this page](https://github.com/joonarafael/unsecure-software/releases/tag/secure-final "Release for Secure Version"). This is the fixed version of the application, and you can run it locally straight out of the box **with the same instructions as the original application**. As always, make sure the old containers and images are removed and you're performing a fresh install.
 
 ## Fixing [Issue 2](./security_issues.md#issue-2---a02-cryptographic-failures "Issue 2 - Cryptographic Failures")
 
@@ -26,7 +28,7 @@ Then, change the authentication logic within the _login API endpoint_ (file [`/a
 ...
 ```
 
-## Fixing [Issue 4](./security_issues.md#issue-4---a04-insecure-design "Issue 4 - Insecure Design")
+## Fixing part of [Issue 4](./security_issues.md#issue-4---a04-insecure-design "Issue 4 - Insecure Design")
 
 Let's make the login error response messages more generic. Change every response message within the _login API endpoint_ (file [`/app/api/auth/login/route.ts`](../app/api/auth/login/route.ts "Open file")) to look like this:
 
@@ -99,7 +101,7 @@ We'll address both the broken access control and injection simply by not fetchin
 ...
 ```
 
-Now the user data fetching is based on the user ID from the token, not from the URL parameter. This change will make the application more secure and prevent any further SQL injection attacks against the system.
+Now the user data fetching is based on the `userId` parsed from the provided access token, not from the URL parameter. This change will make the application more secure and prevent any further SQL injection attacks against the system.
 
 You should also then remove the URL search parameter logic completely from the application, as it will otherwise present some runtime errors.
 
@@ -154,7 +156,7 @@ Then, remove the "client-side user data fetching logic" within the user page (fi
 
 Let's not return passwords and access tokens in the API responses while fetching user info. Change the user data fetching within the _getUser API endpoint_ (file [`/app/api/getuser/route.ts`](../app/api/getuser/route.ts "Open file")) to look like this:
 
-**Assuming you fixed already [issues 1 and 3 above](./security_fixes.md#fixing-issue-1-and-issue-3 "Fixing Issue 1 and Issue 3")**!
+**Assuming you fixed already [issues 1 and 3 above](./security_fixes.md#fixing-issue-1-and-issue-3 "Fixing Issue 1 and Issue 3")**:
 
 ```typescript
 ...
@@ -209,4 +211,4 @@ You should also change the client UI to not display the empty password (cosmetic
 
 ## Congrats, you just made the application substantially more secure! 🎉
 
-Now rebuild the Docker image and run the application again (read instructions found from [this document](./installation_manual.md#rebuilding-the-application)). You can try again all the described attacks in the [Security Issues document](./security_issues.md "Security Issues") and learn that none work anymore!
+Now **rebuild the Docker image** and run the application again (read instructions found from [this document](./installation_manual.md#rebuilding-the-application)). You can try again all the described attacks in the [Security Issues document](./security_issues.md "Security Issues") and learn that none work anymore!
