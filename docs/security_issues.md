@@ -30,7 +30,7 @@ User IDs are automatically generated UUIDs, so try not to guess a user ID. Inste
 
 ### How this is present in my application
 
-As a default, passwords are not encrypted in the database. They are stored as plaintext. If anyone hypothetically got access to the database, they could read the passwords in clear text.
+As a default, passwords are not encrypted in the database. They are stored in plaintext. If a malicious user gets access to the database entries, they can read the passwords in clear text.
 
 ### How to perform an attack against the unsecure system yourself
 
@@ -112,7 +112,9 @@ Also check the full response object from the API when loading the `/user` page. 
 
 The session token is not invalidated when the user logs out. The token is still valid and can be used to access the system. The token is, however, invalidated/updated when the user logs in again. This still leaves a window of opportunity for an attacker to use the token to access the system.
 
-**On top of that**, the token is stored in the session storage of the browser. This means that the token is not stored in a secure manner; token-based authentication should be stored in a secure _HttpOnly_-cookie in a real-life application with proper _Secure_ & _SameSite_ flags. However, to keep the application simple, the token is stored in the session storage. In addition, only one session can be active at a time, which is would not work in a real-life application.
+Please note that this application has a really rudimentary authentication logic, and it uses just a single authentication token for every user. Independent sessions for a single user are not even possible as a new login will refresh the token, and therefore old sessions with old tokens are invalidated.
+
+**On top of that**, the token is stored in the _session storage_ of the browser. This means that the token is not stored in a secure manner; token-based authentication should be stored in a secure _HttpOnly_-cookie in a real-life application with proper _Secure_ & _SameSite_ flags. However, to keep the application simple, the token is stored in the session storage.
 
 ### How to perform an attack against the unsecure system yourself
 
