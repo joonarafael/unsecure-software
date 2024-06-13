@@ -28,6 +28,14 @@ Then, change the authentication logic within the _login API endpoint_ (file [`/a
 ...
 ```
 
+Copy here:
+
+```typescript
+// comment / uncomment code below to switch between hashed and plaintext password comparison
+// const validPassword = existingUser.password === password;
+const validPassword = await bcrypt.compare(password, existingUser.password);
+```
+
 ## Fixing part of [Issue 4](./security_issues.md#issue-4---a04-insecure-design "Issue 4 - Insecure Design")
 
 Let's make the login error response messages more generic. Change every response message within the _login API endpoint_ (file [`/app/api/auth/login/route.ts`](../app/api/auth/login/route.ts "Open file")) to look like this:
@@ -43,6 +51,19 @@ return NextResponse.json(
 	}
 );
 ...
+```
+
+Copy here:
+
+```typescript
+return NextResponse.json(
+	{
+		message: "Invalid username or password.",
+	},
+	{
+		status: 400,
+	}
+);
 ```
 
 These messages exist on lines [21](https://github.com/joonarafael/unsecure-software/blob/1d9ec2805918650ab06ca7d7634e54bbac8e4a8d/app/api/auth/login/route.ts#L21 "View exact line on GitHub"), [38](https://github.com/joonarafael/unsecure-software/blob/1d9ec2805918650ab06ca7d7634e54bbac8e4a8d/app/api/auth/login/route.ts#L38 "View exact line on GitHub"), and [53](https://github.com/joonarafael/unsecure-software/blob/b54da635971789b819a16cc53eba913ff852f3f6/app/api/auth/login/route.ts#L53 "View exact line on GitHub").
@@ -79,6 +100,28 @@ Let's invalidate tokens on logout. Change the logout logic within the _logout AP
 ...
 ```
 
+Copy here:
+
+```typescript
+await db.user.update({
+	where: {
+		id: jwtToken.id,
+	},
+	data: {
+		accessToken: "null",
+	},
+});
+
+return NextResponse.json(
+	{
+		message: "Logout successful.",
+	},
+	{
+		status: 200,
+	}
+);
+```
+
 Now after user logs out, no requests made with the old token will get through. Any request made with an `accessToken` equal to `"null"` will be globally rejected by the API routes.
 
 ## Fixing [Issue 1](./security_issues.md#issue-1---a01-broken-access-control "Issue 1 - Broken Access Control") and [Issue 3](./security_issues.md#issue-3---a03-injection "Issue 3 - Injection")
@@ -101,6 +144,16 @@ We'll address both the broken access control and injection simply by not fetchin
 ...
 ```
 
+Copy here:
+
+```typescript
+const user = await db.user.findFirst({
+	where: {
+		id: verifiedUser.id,
+	},
+});
+```
+
 Now the user data fetching is based on the `userId` parsed from the provided access token, not from the URL parameter. This change will make the application more secure and prevent any further SQL injection attacks against the system.
 
 You should also then remove the URL search parameter logic completely from the application, as it will otherwise present some runtime errors.
@@ -117,6 +170,12 @@ First, update the button on the dashboard page (file [`/app/dashboard/page.tsx`]
 97							I&apos;m interested
 98						</Button>
 ...
+```
+
+Copy here:
+
+```typescript
+<a href="/user" className="flex w-full">
 ```
 
 Then, remove the "client-side user data fetching logic" within the user page (file [`/app/user/page.tsx`](../app/user/page.tsx "Open file")) to look like this:
@@ -152,6 +211,33 @@ Then, remove the "client-side user data fetching logic" within the user page (fi
 ...
 ```
 
+Copy here:
+
+
+```typescript
+const [user, setUser] = useState<User | null>(null);
+
+useEffect(() => {
+	const jwtToken = sessionStorage.getItem("token");
+	
+	if (jwtToken) {
+		const values = {
+			headers: {
+				Authorization: `Bearer ${jwtToken}`,
+			},
+		};
+		
+		axios
+			.post("/api/getuser", values)
+			.then((res) => {
+				setUser(res.data.user);
+			})
+			.catch((error) => {});
+	}
+}, []);
+```
+
+
 ## Further Fixing [Issue 4](./security_issues.md#issue-4---a04-insecure-design "Issue 4 - Insecure Design")
 
 Let's not return passwords and access tokens in the API responses while fetching user info. Change the user data fetching within the _getUser API endpoint_ (file [`/app/api/getuser/route.ts`](../app/api/getuser/route.ts "Open file")) to look like this:
@@ -178,6 +264,22 @@ Let's not return passwords and access tokens in the API responses while fetching
 60				if (user) {
 61					return NextResponse.json(
 ...
+```
+
+Copy here:
+
+```typescript
+const user = await db.user.findFirst({
+	where: {
+		id: verifiedUser.id,
+	},
+	select: {
+		id: true,
+		username: true,
+		createdAt: true,
+		updatedAt: true,
+	}
+});
 ```
 
 You should also change the client UI to not display the empty password (cosmetic touch). Change the user page (file [`/app/user/page.tsx`](../app/user/page.tsx "Open file")) to look like this:
@@ -207,6 +309,30 @@ You should also change the client UI to not display the empty password (cosmetic
 81					</div>
 82				</div>
 ...
+```
+
+Copy here:
+
+```typescript
+<h1 className="text-3xl font-extrabold">{user.username}</h1>
+<div className="flex gap-2 p-4 flex-col border rounded-lg">
+	<div className="flex w-full justify-between flex-row">
+		<p className="text-neutral-500">id</p>
+		<p>{user.id}</p>
+	</div>
+	<div className="flex w-full justify-between flex-row">
+		<p className="text-neutral-500">username</p>
+		<p>{user.username}</p>
+	</div>
+	<div className="flex w-full justify-between flex-row">
+		<p className="text-neutral-500">created at</p>
+		<p>{JSON.stringify(user.createdAt)}</p>
+	</div>
+	<div className="flex w-full justify-between flex-row">
+		<p className="text-neutral-500">updated at</p>
+		<p>{JSON.stringify(user.updatedAt)}</p>
+	</div>
+</div>
 ```
 
 ## Congrats, you just made the application substantially more secure! 🎉
