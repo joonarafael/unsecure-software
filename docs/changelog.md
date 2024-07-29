@@ -2,6 +2,8 @@
 
 ## 2024
 
+- 1.1.0;**Jul 29**: adding direct links to code lines for each issue to the docs
+
 - 1.1.0; **Jun 13**: docs are finished, submitting project
 
 - 1.0.4; **Jun 11**: create releases for secure & unsecure versions
