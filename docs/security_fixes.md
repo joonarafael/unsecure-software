@@ -28,6 +28,8 @@ Then, **uncomment** the code on [this specific line](https://github.com/joonaraf
 ...
 ```
 
+If actually using the app, make sure the database entries are updated with hashed passwords before making this change. Otherwise, you will not be able to log in anymore!
+
 ## Fixing part of [Issue 4](./security_issues.md#issue-4---a04-insecure-design "Issue 4 - Insecure Design")
 
 Let's make the login error response messages more generic. Change every response message within the _login API endpoint_ (file [`/app/api/auth/login/route.ts`](../app/api/auth/login/route.ts "Open file")) to look like this:
@@ -45,11 +47,11 @@ return NextResponse.json(
 ...
 ```
 
-These messages exist on lines [21](https://github.com/joonarafael/unsecure-software/blob/1d9ec2805918650ab06ca7d7634e54bbac8e4a8d/app/api/auth/login/route.ts#L21 "View exact line on GitHub"), [38](https://github.com/joonarafael/unsecure-software/blob/1d9ec2805918650ab06ca7d7634e54bbac8e4a8d/app/api/auth/login/route.ts#L38 "View exact line on GitHub"), and [53](https://github.com/joonarafael/unsecure-software/blob/b54da635971789b819a16cc53eba913ff852f3f6/app/api/auth/login/route.ts#L53 "View exact line on GitHub").
+These messages exist on lines [21](https://github.com/joonarafael/unsecure-software/blob/9210e548fcf63745545e73b33fceba1c467002a7/app/api/auth/login/route.ts#L21 "View exact line on GitHub"), [38](https://github.com/joonarafael/unsecure-software/blob/9210e548fcf63745545e73b33fceba1c467002a7/app/api/auth/login/route.ts#L38 "View exact line on GitHub"), and [53](https://github.com/joonarafael/unsecure-software/blob/9210e548fcf63745545e73b33fceba1c467002a7/app/api/auth/login/route.ts#L53 "View exact line on GitHub").
 
 ## Fixing [Issue 5](./security_issues.md#issue-5---a07-identification-and-authentication-failures "Issue 5 - Identification and Authentication Failures")
 
-Let's invalidate tokens on logout. Change the logout logic within the _logout API endpoint_ (file [`/app/api/auth/logout/route.ts`](../app/api/auth/logout/route.ts "Open file")) to look like this:
+Let's invalidate tokens on logout. Follow the instructions of the comment found on [this line](https://github.com/joonarafael/unsecure-software/blob/9210e548fcf63745545e73b33fceba1c467002a7/app/api/auth/logout/route.ts#L48 "View exact line on GitHub"). The logout logic should finally look like this:
 
 ```typescript
 ...
@@ -57,55 +59,34 @@ Let's invalidate tokens on logout. Change the logout logic within the _logout AP
 45			});
 46
 47			if (verifiedUser) {
-48				await db.user.update({
-49					where: {
-50						id: jwtToken.id,
-51					},
-52					data: {
-53						accessToken: "null",
-54					},
-55				});
-56
-57				return NextResponse.json(
-58					{
-59						message: "Logout successful.",
-60					},
-61					{
-62						status: 200,
-63					}
-64				);
-65			}
-66		}
+48              // comment
+49				await db.user.update({
+50					where: {
+51						id: jwtToken.id,
+52					},
+53					data: {
+54						accessToken: "null",
+55					},
+56				});
+57
+58				return NextResponse.json(
+59					{
+60						message: "Logout successful.",
+61					},
+62					{
+63						status: 200,
+64					}
+65				);
+66			}
+67		}
 ...
-```
-
-Copy here:
-
-```typescript
-await db.user.update({
-	where: {
-		id: jwtToken.id,
-	},
-	data: {
-		accessToken: "null",
-	},
-});
-
-return NextResponse.json(
-	{
-		message: "Logout successful.",
-	},
-	{
-		status: 200,
-	}
-);
 ```
 
 Now after user logs out, no requests made with the old token will get through. Any request made with an `accessToken` equal to `"null"` will be globally rejected by the API routes.
 
 ## Fixing [Issue 1](./security_issues.md#issue-1---a01-broken-access-control "Issue 1 - Broken Access Control") and [Issue 3](./security_issues.md#issue-3---a03-injection "Issue 3 - Injection")
 
-We'll address both the broken access control and injection simply by not fetching the user data based on the URL search parameter. Change the user data fetching within the `getUser` _API endpoint_ (file [`/app/api/getuser/route.ts`](../app/api/getuser/route.ts "Open file")) to look like this:
+We'll address both the broken access control and injection simply by not fetching the user data based on the URL search parameter. Remove code from lines [48](https://github.com/joonarafael/unsecure-software/blob/9210e548fcf63745545e73b33fceba1c467002a7/app/api/getuser/route.ts#L48 "View exact line on GitHub") to 50, and replace it with the commented code on line [54](https://github.com/joonarafael/unsecure-software/blob/9210e548fcf63745545e73b33fceba1c467002a7/app/api/getuser/route.ts#L54 "View exact line on GitHub") to 58. Finally the logic should look like this:
 
 ```typescript
 ...
@@ -123,21 +104,11 @@ We'll address both the broken access control and injection simply by not fetchin
 ...
 ```
 
-Copy here:
-
-```typescript
-const user = await db.user.findFirst({
-	where: {
-		id: verifiedUser.id,
-	},
-});
-```
-
 Now the user data fetching is based on the `userId` parsed from the provided access token, not from the URL parameter. This change will make the application more secure and prevent any further SQL injection attacks against the system.
 
 You should also then remove the URL search parameter logic completely from the application, as it will otherwise present some runtime errors.
 
-First, update the button on the dashboard page (file [`/app/dashboard/page.tsx`](../app/dashboard/page.tsx "Open file")) to look like this:
+Follow instructions from the comment found on [this line](https://github.com/joonarafael/unsecure-software/blob/9210e548fcf63745545e73b33fceba1c467002a7/app/dashboard/page.tsx#L96 "View exact line on GitHub"). The dashboard page should look like this:
 
 ```typescript
 ...
@@ -151,13 +122,7 @@ First, update the button on the dashboard page (file [`/app/dashboard/page.tsx`]
 ...
 ```
 
-Copy here:
-
-```typescript
-<a href="/user" className="flex w-full">
-```
-
-Then, remove the "client-side user data fetching logic" within the user page (file [`/app/user/page.tsx`](../app/user/page.tsx "Open file")) to look like this:
+Then, follow instructions from the comment found on [this line](https://github.com/joonarafael/unsecure-software/blob/9210e548fcf63745545e73b33fceba1c467002a7/app/user/page.tsx#L99 "View exact line on GitHub"). The user page should look like this:
 
 ```typescript
 ...
@@ -190,36 +155,11 @@ Then, remove the "client-side user data fetching logic" within the user page (fi
 ...
 ```
 
-Copy here:
-
-```typescript
-const [user, setUser] = useState<User | null>(null);
-
-useEffect(() => {
-	const jwtToken = sessionStorage.getItem("token");
-
-	if (jwtToken) {
-		const values = {
-			headers: {
-				Authorization: `Bearer ${jwtToken}`,
-			},
-		};
-
-		axios
-			.post("/api/getuser", values)
-			.then((res) => {
-				setUser(res.data.user);
-			})
-			.catch((error) => {});
-	}
-}, []);
-```
-
 ## Further Fixing [Issue 4](./security_issues.md#issue-4---a04-insecure-design "Issue 4 - Insecure Design")
 
-Let's not return passwords and access tokens in the API responses while fetching user info. Change the user data fetching within the _getUser API endpoint_ (file [`/app/api/getuser/route.ts`](../app/api/getuser/route.ts "Open file")) to look like this:
-
 **Assuming you fixed already [issues 1 and 3 above](./security_fixes.md#fixing-issue-1-and-issue-3 "Fixing Issue 1 and Issue 3")**:
+
+Let's not return passwords and access tokens in the API responses while fetching user info. Replace the code on lines [48](https://github.com/joonarafael/unsecure-software/blob/9210e548fcf63745545e73b33fceba1c467002a7/app/api/getuser/route.ts#L48 "View exact line on GitHub") to 50 with the commented code on line [62](https://github.com/joonarafael/unsecure-software/blob/9210e548fcf63745545e73b33fceba1c467002a7/app/api/getuser/route.ts#L62 "View exact line on GitHub") to 72. The logic should look like this:
 
 ```typescript
 ...
@@ -243,23 +183,7 @@ Let's not return passwords and access tokens in the API responses while fetching
 ...
 ```
 
-Copy here:
-
-```typescript
-const user = await db.user.findFirst({
-	where: {
-		id: verifiedUser.id,
-	},
-	select: {
-		id: true,
-		username: true,
-		createdAt: true,
-		updatedAt: true,
-	},
-});
-```
-
-You should also change the client UI to not display the empty password (cosmetic touch). Change the user page (file [`/app/user/page.tsx`](../app/user/page.tsx "Open file")) to look like this:
+You should also change the client UI to not display the empty password (cosmetic touch). Follow the instructions from the comment found on [this line](https://github.com/joonarafael/unsecure-software/blob/9210e548fcf63745545e73b33fceba1c467002a7/app/user/page.tsx#L122 "View exact line on GitHub"). The user page should look like this:
 
 ```typescript
 ...
@@ -288,29 +212,7 @@ You should also change the client UI to not display the empty password (cosmetic
 ...
 ```
 
-Copy here:
-
-```typescript
-<h1 className="text-3xl font-extrabold">{user.username}</h1>
-<div className="flex gap-2 p-4 flex-col border rounded-lg">
-	<div className="flex w-full justify-between flex-row">
-		<p className="text-neutral-500">id</p>
-		<p>{user.id}</p>
-	</div>
-	<div className="flex w-full justify-between flex-row">
-		<p className="text-neutral-500">username</p>
-		<p>{user.username}</p>
-	</div>
-	<div className="flex w-full justify-between flex-row">
-		<p className="text-neutral-500">created at</p>
-		<p>{JSON.stringify(user.createdAt)}</p>
-	</div>
-	<div className="flex w-full justify-between flex-row">
-		<p className="text-neutral-500">updated at</p>
-		<p>{JSON.stringify(user.updatedAt)}</p>
-	</div>
-</div>
-```
+(Line numbering might differ as you probably fixed the `useEffect` hook already as described in the previous step.)
 
 ## Congrats, you just made the application substantially more secure! 🎉
 

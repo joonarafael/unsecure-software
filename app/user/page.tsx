@@ -119,7 +119,7 @@ export default UserClient;
 // 	    }
 //  }, []);
 
-// replace code on lines 64-86 with this code to finish fixing issue 4:
+// replace code on lines 64-86 (line numbering might slightly differ if you updated the useEffect hook already described in the previous step) with this code to finish fixing issue 4:
 
 //  <h1 className="text-3xl font-extrabold">{user.username}</h1>
 //  <div className="flex gap-2 p-4 flex-col border rounded-lg">

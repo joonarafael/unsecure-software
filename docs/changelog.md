@@ -2,6 +2,8 @@
 
 ## 2024
 
+- 1.1.0;**Jul 30**: provide fixes in comments to help users fix the code faster, update docs
+
 - 1.1.0;**Jul 29**: adding direct links to code lines for each issue to the docs
 
 - 1.1.0; **Jun 13**: docs are finished, submitting project
