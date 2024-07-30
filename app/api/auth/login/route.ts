@@ -18,7 +18,7 @@ export async function POST(request: Request) {
 		if (!username || !password) {
 			return NextResponse.json(
 				{
-					message: "Invalid arguments.",
+					message: "Invalid arguments.", // message: "Invalid username or password.",
 				},
 				{
 					status: 400,
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
 		if (!existingUser) {
 			return NextResponse.json(
 				{
-					message: `No user named ${username} found.`,
+					message: `No user named ${username} found.`, // message: "Invalid username or password.",
 				},
 				{
 					status: 400,
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
 		if (!validPassword) {
 			return NextResponse.json(
 				{
-					message: `Password was not correct for user ${username}.`,
+					message: `Password was not correct for user ${username}.`, // message: "Invalid username or password.",
 				},
 				{
 					status: 400,

@@ -12,7 +12,7 @@ If you do not feel like copying, pasting, commenting, and uncommenting code all 
 
 Replace plaintext passwords with hashed passwords in the database through the database control panel (behind button "_Let's do it_" on index page or route `/populate`). **Login credentials remain the same**, they are just stored in a more secure manner.
 
-Then, change the authentication logic within the _login API endpoint_ (file [`/app/api/auth/login/route.ts`](../app/api/auth/login/route.ts "Open file")) to look like this:
+Then, **uncomment** the code on [this specific line](https://github.com/joonarafael/unsecure-software/blob/342baaab9dd95c6e70382826346cf8f431930f92/app/api/auth/login/route.ts#L48 "View exact line on GitHub") and **comment out** code on line [47](https://github.com/joonarafael/unsecure-software/blob/342baaab9dd95c6e70382826346cf8f431930f92/app/api/auth/login/route.ts#L47 "View exact line on GitHub") so it looks like this:
 
 ```typescript
 ...
@@ -26,14 +26,6 @@ Then, change the authentication logic within the _login API endpoint_ (file [`/a
 50		if (!validPassword) {
 51			return NextResponse.json(
 ...
-```
-
-Copy here:
-
-```typescript
-// comment / uncomment code below to switch between hashed and plaintext password comparison
-// const validPassword = existingUser.password === password;
-const validPassword = await bcrypt.compare(password, existingUser.password);
 ```
 
 ## Fixing part of [Issue 4](./security_issues.md#issue-4---a04-insecure-design "Issue 4 - Insecure Design")
@@ -51,19 +43,6 @@ return NextResponse.json(
 	}
 );
 ...
-```
-
-Copy here:
-
-```typescript
-return NextResponse.json(
-	{
-		message: "Invalid username or password.",
-	},
-	{
-		status: 400,
-	}
-);
 ```
 
 These messages exist on lines [21](https://github.com/joonarafael/unsecure-software/blob/1d9ec2805918650ab06ca7d7634e54bbac8e4a8d/app/api/auth/login/route.ts#L21 "View exact line on GitHub"), [38](https://github.com/joonarafael/unsecure-software/blob/1d9ec2805918650ab06ca7d7634e54bbac8e4a8d/app/api/auth/login/route.ts#L38 "View exact line on GitHub"), and [53](https://github.com/joonarafael/unsecure-software/blob/b54da635971789b819a16cc53eba913ff852f3f6/app/api/auth/login/route.ts#L53 "View exact line on GitHub").
@@ -213,20 +192,19 @@ Then, remove the "client-side user data fetching logic" within the user page (fi
 
 Copy here:
 
-
 ```typescript
 const [user, setUser] = useState<User | null>(null);
 
 useEffect(() => {
 	const jwtToken = sessionStorage.getItem("token");
-	
+
 	if (jwtToken) {
 		const values = {
 			headers: {
 				Authorization: `Bearer ${jwtToken}`,
 			},
 		};
-		
+
 		axios
 			.post("/api/getuser", values)
 			.then((res) => {
@@ -236,7 +214,6 @@ useEffect(() => {
 	}
 }, []);
 ```
-
 
 ## Further Fixing [Issue 4](./security_issues.md#issue-4---a04-insecure-design "Issue 4 - Insecure Design")
 
@@ -278,7 +255,7 @@ const user = await db.user.findFirst({
 		username: true,
 		createdAt: true,
 		updatedAt: true,
-	}
+	},
 });
 ```
 

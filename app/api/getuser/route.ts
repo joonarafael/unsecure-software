@@ -49,6 +49,28 @@ export async function POST(request: Request) {
 					`SELECT * FROM "User" WHERE id='${userId}';`
 				);
 
+				// fixing just the SQL injection:
+				//
+				//	const user = await db.user.findFirst({
+				//		where: {
+				//			id: verifiedUser.id,
+				//		},
+				//	});
+
+				// fixing both the SQL injection and the query:
+				//
+				//  const user = await db.user.findFirst({
+				//      where: {
+				//          id: verifiedUser.id,
+				//	    },
+				//	    select: {
+				//		    id: true,
+				//			username: true,
+				//	  		createdAt: true,
+				//	  		updatedAt: true,
+				//	    }
+				//  });
+
 				if (user) {
 					return NextResponse.json(
 						{

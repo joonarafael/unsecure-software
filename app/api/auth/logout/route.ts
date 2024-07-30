@@ -45,6 +45,7 @@ export async function POST(request: Request) {
 			});
 
 			if (verifiedUser) {
+				// to fix this issue, please move the db operation before the return statement
 				return NextResponse.json(
 					{
 						message: "Logout successful.",

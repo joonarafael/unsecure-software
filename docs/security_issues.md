@@ -10,7 +10,7 @@ This document describes all the security issues present in the application. The 
 
 User data fetching on route `/user` is not safe. While the user information fetching requires access token, the API request is made based on the URL parameter. You can give any user ID within the URL `?id=` search parameter to query for any user in the database.
 
-User ID is parsed from the request [here](https://github.com/joonarafael/unsecure-software/blob/88eca178874a427198f6ccd30d480a64e8ac8480/app/api/getuser/route.ts#L13 "route.ts, line 13"), and used in the SQL query [here](https://github.com/joonarafael/unsecure-software/blob/88eca178874a427198f6ccd30d480a64e8ac8480/app/api/getuser/route.ts#L49 "route.ts, line 49").
+User ID is parsed from the request [here](https://github.com/joonarafael/unsecure-software/blob/88eca178874a427198f6ccd30d480a64e8ac8480/app/api/getuser/route.ts#L13 "View exact line on GitHub"), and used in the SQL query [here](https://github.com/joonarafael/unsecure-software/blob/88eca178874a427198f6ccd30d480a64e8ac8480/app/api/getuser/route.ts#L49 "View exact line on GitHub").
 
 ### How to perform an attack against the unsecure system yourself
 
@@ -34,7 +34,7 @@ User IDs are automatically generated UUIDs, so try not to guess a user ID. Inste
 
 As a default, passwords are not encrypted in the database. They are stored in plaintext. If a malicious user gets access to the database entries, they can read the passwords in clear text.
 
-Issue lies of course within the pre-populated database entries, but the password matching of plaintext passwords is done [here](https://github.com/joonarafael/unsecure-software/blob/88eca178874a427198f6ccd30d480a64e8ac8480/app/api/auth/login/route.ts#L47 "route.ts, line 47").
+Issue lies of course within the pre-populated database entries, but the password matching of plaintext passwords is done [here](https://github.com/joonarafael/unsecure-software/blob/88eca178874a427198f6ccd30d480a64e8ac8480/app/api/auth/login/route.ts#L47 "View exact line on GitHub").
 
 ### How to perform an attack against the unsecure system yourself
 
@@ -62,7 +62,7 @@ _- Hostile data is directly used or concatenated. The SQL or command contains th
 
 The user data is fetched in a dangerous manner when user info is retrieved. The user ID for database query is fetched from the URL search parameter (see [first issue](./security_issues.md#how-this-is-present-in-my-application "Issue 1 - How this is present in my application")), and directly used in the SQL query. While the library I've used in my application does not allow _prepared statements with multiple commands_, the data is still left exposed and vulnerable for an SQL injection.
 
-User input is directly used in a SQL query exactly [here](https://github.com/joonarafael/unsecure-software/blob/88eca178874a427198f6ccd30d480a64e8ac8480/app/api/getuser/route.ts#L48 "route.ts, line 48").
+User input is directly used in a SQL query exactly [here](https://github.com/joonarafael/unsecure-software/blob/88eca178874a427198f6ccd30d480a64e8ac8480/app/api/getuser/route.ts#L48 "View exact line on GitHub").
 
 ### How to perform an attack against the unsecure system yourself
 
@@ -94,11 +94,11 @@ Other insecure design flaws are present in the API design as well, like the retu
 
 Try to login with wrong credentials. The response message will tell you if the user exists in the database or not. And if the user exists, it will tell you that the password is wrong.
 
-All improper responses are handled in the [login route](https://github.com/joonarafael/unsecure-software/blob/main/app/api/auth/login/route.ts "route.ts"), on lines [21](https://github.com/joonarafael/unsecure-software/blob/88eca178874a427198f6ccd30d480a64e8ac8480/app/api/auth/login/route.ts#L21 "route.ts, line 21"), [38](https://github.com/joonarafael/unsecure-software/blob/88eca178874a427198f6ccd30d480a64e8ac8480/app/api/auth/login/route.ts#L38 "route.ts, line 38"), and [53](https://github.com/joonarafael/unsecure-software/blob/88eca178874a427198f6ccd30d480a64e8ac8480/app/api/auth/login/route.ts#L53 "route.ts, line 53").
+All improper responses are handled in the [login route](../app/api/auth/login/route.ts "Open file"), on lines [21](https://github.com/joonarafael/unsecure-software/blob/88eca178874a427198f6ccd30d480a64e8ac8480/app/api/auth/login/route.ts#L21 "View exact line on GitHub"), [38](https://github.com/joonarafael/unsecure-software/blob/88eca178874a427198f6ccd30d480a64e8ac8480/app/api/auth/login/route.ts#L38 "View exact line on GitHub"), and [53](https://github.com/joonarafael/unsecure-software/blob/88eca178874a427198f6ccd30d480a64e8ac8480/app/api/auth/login/route.ts#L53 "View exact line on GitHub").
 
 Also check the full response object from the API when loading the `/user` page. It will return the user's access token.
 
-Improper SQL query to retrieve **all** user information (passwords and access tokens should be left out) is made [here](https://github.com/joonarafael/unsecure-software/blob/88eca178874a427198f6ccd30d480a64e8ac8480/app/api/getuser/route.ts#L49, "route.ts, line 49").
+Improper SQL query to retrieve **all** user information (passwords and access tokens should be left out) is made [here](https://github.com/joonarafael/unsecure-software/blob/88eca178874a427198f6ccd30d480a64e8ac8480/app/api/getuser/route.ts#L49, "View exact line on GitHub").
 
 ### Example
 
@@ -124,7 +124,7 @@ The session token is not invalidated when the user logs out. The token is still 
 
 Please note that this application has a really rudimentary authentication logic, and it uses just a single authentication token for every user. Independent sessions for a single user are not even possible as a new login will refresh the token, and therefore old sessions with old tokens are invalidated.
 
-There is no real falsy code for this one, just the lack thereof. API route defined in [this file](https://github.com/joonarafael/unsecure-software/blob/main/app/api/auth/logout/route.ts "route.ts") just does not invalidate the token. (Line [48](https://github.com/joonarafael/unsecure-software/blob/dd87413e8e0b1c7ecf54885b9c0714fb88a3d374/app/api/auth/logout/route.ts#L48 "route.ts, line 48") has the `return` statement to present the vulnerability and leaves therefore the fix of access token invalidation out from line [57](https://github.com/joonarafael/unsecure-software/blob/dd87413e8e0b1c7ecf54885b9c0714fb88a3d374/app/api/auth/logout/route.ts#L57 "route.ts, line 57").)
+There is no real falsy code for this one, just the lack thereof. API route defined in [this file](../app/api/auth/logout/route.ts "Open file") just does not invalidate the token. (Line [48](https://github.com/joonarafael/unsecure-software/blob/dd87413e8e0b1c7ecf54885b9c0714fb88a3d374/app/api/auth/logout/route.ts#L48 "View exact line on GitHub") has the `return` statement to present the vulnerability and leaves therefore the fix of access token invalidation out from line [57](https://github.com/joonarafael/unsecure-software/blob/dd87413e8e0b1c7ecf54885b9c0714fb88a3d374/app/api/auth/logout/route.ts#L57 "View exact line on GitHub").)
 
 **On top of that**, the token is stored in the _session storage_ of the browser. This means that the token is not stored in a secure manner; token-based authentication should use a secure _HttpOnly_-cookie in a real-life application with proper _Secure_ & _SameSite_ flags. However, to keep the application simple, the token is stored in the session storage.
 
